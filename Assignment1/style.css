@@ -12,8 +12,8 @@
   padding-bottom: 40px;
   display: flex;
   justify-content: space-between;
-  margin-left: 270px;
-  margin-right: 270px;
+  margin-left: 15%;
+  margin-right: 15%;
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -46,6 +46,9 @@
 .hero-bg {
   background-color: rgba(0, 0, 0, 0.18);
   height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .signup {
@@ -53,9 +56,7 @@
   width: 280px;
   height: 340px;
   padding: 50px;
-  position: relative;
-  top: 140px;
-  left: 260px;
+  margin-left: 15%;
 }
 
 .big-white {
@@ -65,7 +66,8 @@
   font-style: normal;
   font-size: 36px;
   line-height: 1;
-  font-weight: 350;
+  font-weight: 400;
+  letter-spacing: 0px;
 }
 
 .small-white {
@@ -103,6 +105,7 @@
   font-style: normal;
   font-size: 12px;
   text-align: center;
+  letter-spacing: 1px;
 }
 
 .feature {
@@ -110,23 +113,24 @@
   align-items: center;
   justify-content: center;
   display: flex;
-  padding: 150px;
+  padding: 140px;
   gap: 60px;
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
 .feature-block {
-  width: 310px;
+  width: 320px;
 }
 .feature-heading {
   font-size: 16px;
-  font-weight: 350;
+  font-weight: 380;
 }
 
 .feature-text {
   font-size: 12px;
-  color: rgb(127, 127, 127);
+  color: rgb(94, 94, 94);
+  font-weight: 500;
 }
 
 .quote {
@@ -139,7 +143,7 @@
 }
 .quote p {
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 350;
   letter-spacing: 1px;
 }
 .quote div {
@@ -155,7 +159,7 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  filter: grayscale(80%);
+  filter: grayscale(70%);
 }
 
 .price-panel {
@@ -208,7 +212,7 @@
 }
 
 .buy-button {
-  background-color: rgb(0, 109, 218);
+  background-color: rgb(0, 86, 171);
   color: white;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -219,7 +223,8 @@
 }
 
 .card-heading {
-  padding-bottom: 20px;
+  padding-bottom: 18px;
+  font-weight: 360;
 }
 
 .card-feature {
@@ -237,7 +242,7 @@
   text-align: center;
 }
 .try {
-  height: 50%;
+  height: 57%;
   background-image: url("./images/notebook.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -246,7 +251,7 @@
 }
 
 .try-panel {
-  background-color: rgba(44, 81, 118, 0.764);
+  background-color: rgba(11, 45, 74, 0.88);
   width: 100%;
   height: 100%;
   display: flex;
@@ -268,7 +273,7 @@
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-weight: 350;
+  font-weight: 400;
   font-size: 12px;
   margin-top: 10px;
 }
@@ -284,7 +289,9 @@
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 350;
+  letter-spacing: 1px;
 }
 
 .contact {
@@ -297,16 +304,16 @@
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  padding: 85px;
 }
 
 .company {
   color: white;
-  padding-top: 50px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 .address {
   color: rgb(183, 183, 183);
-  padding-bottom: 50px;
+  padding-bottom: 40px;
   font-size: 11px;
 }
 
