@@ -65,7 +65,7 @@
 }
 
 .signup button {
-  width: 50%;
+  width: 60%;
   padding: 10px;
   background-color: yellow;
   color: black;
@@ -150,10 +150,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.try-heading {
   color: white;
 }
 
-.try-panel button {
+.try-text {
+  color: white;
+}
+
+.try-button {
   text-align: center;
   background-color: rgba(245, 222, 66, 1);
   padding-top: 15px;
