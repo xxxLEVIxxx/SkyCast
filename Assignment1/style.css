@@ -201,6 +201,25 @@
 }
 .card {
   background-color: rgb(240, 240, 240);
+  background-image: linear-gradient(#e0e0e0 0.8px, transparent 0.8px),
+    linear-gradient(90deg, #e0e0e0 0.8px, transparent 0.8px),
+    linear-gradient(
+      45deg,
+      transparent 0%,
+      transparent calc(50% - 0.7px),
+      #e0e0e0 50%,
+      transparent calc(50% + 0.7px),
+      transparent 100%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent calc(50% - 0.7px),
+      #e0e0e0 50%,
+      transparent calc(50% + 0.7px),
+      transparent 100%
+    );
+  background-size: 14px 14px, 14px 14px, 28px 28px, 28px 28px;
   padding: 80px;
   display: flex;
   flex-direction: column;
