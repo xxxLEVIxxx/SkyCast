@@ -219,7 +219,7 @@
       transparent calc(50% + 0.7px),
       transparent 100%
     );
-  background-size: 14px 14px, 14px 14px, 28px 28px, 28px 28px;
+  background-size: 12px 12px, 12px 12px, 24px 24px, 24px 24px;
   padding: 80px;
   display: flex;
   flex-direction: column;
