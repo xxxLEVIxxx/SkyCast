@@ -6,7 +6,7 @@ body {
 }
 
 .banner {
-  background-image: url("./images/banner.jpg");
+  background-image: url("./Images/banner.jpg");
   background-position: top;
   display: flex;
   flex-direction: column;
