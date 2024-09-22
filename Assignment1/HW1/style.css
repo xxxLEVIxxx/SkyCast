@@ -1,0 +1,344 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.header {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding-top: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 15%;
+  margin-right: 15%;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.header > a {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.right {
+  display: flex;
+  gap: 30px;
+}
+.link:hover {
+  color: black;
+}
+.link {
+  color: rgb(175, 174, 174);
+  font-size: 12px;
+}
+
+.herosection {
+  background-image: url("./images/lawyer.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+  height: 82%;
+  position: relative;
+}
+.hero-bg {
+  background-color: rgba(0, 0, 0, 0.18);
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.signup {
+  background-color: rgba(26, 58, 91, 1);
+  width: 280px;
+  height: 340px;
+  padding: 50px;
+  margin-left: 15%;
+}
+
+.big-white {
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+.small-white {
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.small-yellow {
+  color: rgb(228, 228, 31);
+  font-style: italic;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.signup input {
+  width: 90%;
+  padding: 15px;
+  margin: 30px 0;
+}
+
+.signup-button {
+  width: 45%;
+  padding: 12px;
+  background-color: rgb(245, 222, 66);
+  color: black;
+  border: none;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.feature {
+  background-color: rgb(254, 254, 254);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 140px;
+  gap: 60px;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.feature-block {
+  width: 320px;
+}
+.feature-heading {
+  font-size: 16px;
+  font-weight: 380;
+}
+
+.feature-text {
+  font-size: 12px;
+  color: rgb(94, 94, 94);
+  font-weight: 500;
+}
+
+.quote {
+  background-color: rgba(244, 244, 244, 1);
+  padding: 150px;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+.quote p {
+  font-size: 20px;
+  font-weight: 350;
+  letter-spacing: 1px;
+}
+.quote div {
+  font-size: 12px;
+  color: rgb(93, 92, 92);
+}
+.quote b {
+  color: black;
+}
+.price {
+  background-image: url("./images/glasses.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  filter: grayscale(70%);
+}
+
+.price-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 80px;
+  background-color: rgba(235, 235, 235, 0.803);
+}
+
+.price-title {
+  width: 100%;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 20px;
+  font-weight: 350;
+  margin-bottom: 12px;
+}
+.price-subtitle {
+  width: 100%;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 14px;
+  color: rgb(166, 166, 166);
+  margin-bottom: 100px;
+}
+
+.price-plan {
+  display: flex; /* Enable Flexbox */
+  justify-content: center; /* Center the children horizontally */
+  align-items: center; /* Center the children vertically */
+  gap: 45px; /* Optional: Adds space between the children */
+}
+.card {
+  background-color: rgb(240, 240, 240);
+  background-image: linear-gradient(#e0e0e0 0.8px, transparent 0.8px),
+    linear-gradient(90deg, #e0e0e0 0.8px, transparent 0.8px),
+    linear-gradient(
+      45deg,
+      transparent 0%,
+      transparent calc(50% - 0.7px),
+      #e0e0e0 50%,
+      transparent calc(50% + 0.7px),
+      transparent 100%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent calc(50% - 0.7px),
+      #e0e0e0 50%,
+      transparent calc(50% + 0.7px),
+      transparent 100%
+    );
+  background-size: 12px 12px, 12px 12px, 24px 24px, 24px 24px;
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.buy-button {
+  background-color: rgb(0, 86, 171);
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.card-heading {
+  padding-bottom: 18px;
+  font-weight: 360;
+}
+
+.card-feature {
+  font-size: 14px;
+  font-weight: 200;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.price-tag {
+  font-size: 26px;
+  text-align: center;
+}
+.try {
+  height: 57%;
+  background-image: url("./images/notebook.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+}
+
+.try-panel {
+  background-color: rgba(11, 45, 74, 0.88);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.try-heading {
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 28px;
+  font-weight: 350;
+}
+
+.try-text {
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.try-button {
+  text-align: center;
+  background-color: rgba(245, 222, 66, 1);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 40px;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 350;
+  letter-spacing: 1px;
+}
+
+.contact {
+  background-color: rgb(29, 35, 47);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  padding: 85px;
+}
+
+.company {
+  color: white;
+  padding-bottom: 12px;
+}
+.address {
+  color: rgb(183, 183, 183);
+  padding-bottom: 40px;
+  font-size: 11px;
+}
+
+.contact img {
+  width: 32px;
+  height: 32px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
