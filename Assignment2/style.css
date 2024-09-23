@@ -46,7 +46,78 @@ body {
 }
 
 .hidden {
-  background-color: #ffffff;
-  width: 50vw;
   margin-top: 28px;
+}
+
+.card {
+  background-color: rgb(254, 254, 254);
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  padding: 20px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  background-color: rgb(254, 254, 254);
+}
+
+.info img {
+  width: 20px;
+  height: 20px;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+#current-img {
+  width: 80px;
+  height: 80px;
+}
+
+[class^="horizontal"] {
+  display: flex;
+  flex-direction: row;
+  padding-right: 50px;
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+#temperature {
+  font-size: 80px;
+  color: rgb(135, 135, 135);
+}
+
+#header {
+  background-color: rgb(85, 110, 168);
+  padding: 10px;
+  width: 80vw;
+}
+
+.horizontalRow {
+  background-color: rgb(254, 254, 254);
+  width: 80vw;
+  padding: 20px;
+}
+
+[id^="status"] {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
 }
