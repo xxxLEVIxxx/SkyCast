@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>weather</title>
     <link rel="stylesheet" href="style.css" />
+    
   </head>
   <body>
     <div class="search-container">
@@ -26,6 +27,7 @@
             <div>State</div>
             <label for="state">Choose a state:</label>
             <select id="state" name="state">
+              <option>Select your state</option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
               <option value="AZ">Arizona</option>
@@ -82,12 +84,22 @@
         <hr />
         <div class="third-row">
             <div>Want us to auto-dect your location? Check here</div>
-            <input type="checkbox"></input>
+            <input type="checkbox" id="checkbox"></input>
         </div>
         <div class="fourth-row">
           <button id="search">Search</button>
-          <button id="clear">Clear</button>
+          <button id="clear" onclick={clear}>Clear</button>
       </div>
     </div>
+    <div class="hidden">
+        <div class="card">
+            <div class="location">Long Beach, California</div>
+            <div class="status"></div>
+            <div class="temperature"></div>
+            <div class="info"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
