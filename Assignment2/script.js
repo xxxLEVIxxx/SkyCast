@@ -77,6 +77,8 @@ const weatherCodes = {
   ],
 };
 
+tempRange = [];
+
 //clear function
 document.getElementById("clear").addEventListener("click", function () {
   document.getElementById("street").value = "";
@@ -93,6 +95,8 @@ document.getElementById("search").addEventListener("click", function () {
   const autoDetect = document.getElementById("checkbox").checked;
   const xhr = new XMLHttpRequest();
   const ip_url = "https://ipinfo.io/?token=b72b65292cdc46";
+  var lat = 0;
+  var lon = 0;
 
   console.log(autoDetect);
   // is auto detect is checked,
@@ -102,80 +106,165 @@ document.getElementById("search").addEventListener("click", function () {
     xhr.open("GET", ip_url, true);
     xhr.onload = function () {
       if (this.status === 200) {
-        console.log(200);
+        console.log(this.responseText);
         const response = JSON.parse(this.responseText);
+        console.log(response);
         const location = response.loc.split(",");
+        const location2 = response.city + ", " + response.region;
+        document.getElementById("location").innerHTML = location2;
+        console.log(location);
         lat = location[0];
         lon = location[1];
+        getCurrentWeather(lat, lon);
+
+        getWeeklyWeather(lat, lon);
+
+        getHourlyWeather(lat, lon);
       }
     };
 
     xhr.send();
-
-    console.log("lat: " + lat + " lon: " + lon);
-    const xhr2 = new XMLHttpRequest();
-    const url = `http://127.0.0.1:5000/current?lat=${lat}&lon=${lon}`;
-    xhr2.open("GET", url, true);
-    xhr2.onload = function () {
-      if (this.status === 200) {
-        console.log(200);
-        const response = JSON.parse(this.responseText);
-        console.log(response);
-        const data = response.data.timelines[0].intervals[0].values;
-        console.log(data);
-
-        //update the current card
-        document.getElementById("current-img").src =
-          weatherCodes[data.weatherCode][1];
-        document.getElementById("current-weather").innerHTML = weatherCodes[0];
-        document.getElementById("temperature").innerHTML =
-          data.temperature + "°";
-        document.getElementById("humidity-val").innerHTML = data.humidity + "%";
-        document.getElementById("pressure-val").innerHTML =
-          data.pressureSeaLevel + "inHg";
-        document.getElementById("wind-val").innerHTML = data.windSpeed + "mph";
-        document.getElementById("visibility-val").innerHTML =
-          data.visibility + "mi";
-        document.getElementById("cloudCover-val").innerHTML =
-          data.cloudCover + "%";
-        document.getElementById("UV-val").innerHTML = data.uvIndex;
-      }
-    };
-    xhr2.send();
-    console.log("reached here2");
-
-    //update the weekly table
-    const xhr3 = new XMLHttpRequest();
-    const url3 = `http://127.0.0.1:5000/nextweek?lat=${lat}&lon=${lon}`;
-    xhr3.open("GET", url3, true);
-    console.log("reached here3");
-    xhr3.onload = function () {
-      if (this.status === 200) {
-        console.log(200);
-        const response = JSON.parse(this.responseText);
-        console.log(response);
-        const data = response.data.timelines[0].intervals;
-        console.log(data);
-
-        //update the weekly table
-        for (let i = 0; i < 7; i++) {
-          console.log(data[i].startTime);
-          console.log(`date${i}`);
-          console.log(document.getElementById(`date${i}`).innerHTML);
-          document.getElementById(`date${i}`).innerHTML = data[i].startTime;
-          document.getElementById(`status-img${i}`).src =
-            weatherCodes[data[i].values.weatherCode][1];
-          document.getElementById(`status-text${i}`).innerHTML =
-            weatherCodes[data[i].values.weatherCode][0];
-          document.getElementById(`tempHigh${i}`).innerHTML =
-            data[i].values.temperatureMax;
-          document.getElementById(`tempLow${i}`).innerHTML =
-            data[i].values.temperatureMin;
-          document.getElementById(`windSpeed${i}`).innerHTML =
-            data[i].values.windSpeed;
-        }
-      }
-    };
-    xhr3.send();
   }
 });
+
+function getCurrentWeather(lat, lon) {
+  const xhr2 = new XMLHttpRequest();
+  const url2 = `http://127.0.0.1:5000/current?lat=${lat}&lon=${lon}`;
+  xhr2.open("GET", url2, true);
+  xhr2.onload = function () {
+    if (this.status === 200) {
+      const response = JSON.parse(this.responseText);
+
+      const data = response[0].values;
+
+      //update the current card
+      document.getElementById("current-img").src =
+        weatherCodes[data.weatherCode][1];
+      document.getElementById("current-weather").innerHTML = weatherCodes[0];
+      document.getElementById("temperature").innerHTML = data.temperature + "°";
+      document.getElementById("humidity-val").innerHTML = data.humidity + "%";
+      document.getElementById("pressure-val").innerHTML =
+        data.pressureSeaLevel + "inHg";
+      document.getElementById("wind-val").innerHTML = data.windSpeed + "mph";
+      document.getElementById("visibility-val").innerHTML =
+        data.visibility + "mi";
+      document.getElementById("cloudCover-val").innerHTML =
+        data.cloudCover + "%";
+      document.getElementById("UV-val").innerHTML = data.uvIndex;
+    }
+  };
+  xhr2.send();
+}
+
+function getWeeklyWeather(lat, lon) {
+  const xhr3 = new XMLHttpRequest();
+  const url3 = `http://127.0.0.1:5000/nextweek?lat=${lat}&lon=${lon}`;
+  xhr3.open("GET", url3, true);
+  console.log("reached here3");
+  xhr3.onload = function () {
+    if (this.status === 200) {
+      const response = JSON.parse(this.responseText);
+      console.log(response);
+
+      //update the weekly table
+      for (let i = 0; i < 6; i++) {
+        document.getElementById(`date${i}`).innerHTML = response[i].startTime;
+        document.getElementById(`status-img${i}`).src =
+          weatherCodes[response[i].values.weatherCode][1];
+        document.getElementById(`status-text${i}`).innerHTML =
+          weatherCodes[response[i].values.weatherCode][0];
+        document.getElementById(`tempHigh${i}`).innerHTML =
+          response[i].values.temperatureMax;
+        document.getElementById(`tempLow${i}`).innerHTML =
+          response[i].values.temperatureMin;
+        document.getElementById(`windSpeed${i}`).innerHTML =
+          response[i].values.windSpeed;
+
+        tempRange.push([
+          response[i].timeStamp,
+          response[i].values.temperatureMin,
+          response[i].values.temperatureMax,
+        ]);
+      }
+      drawTempRangeChart();
+      console.log(tempRange);
+    }
+  };
+
+  xhr3.send();
+}
+
+function getHourlyWeather(lat, lon) {
+  const xhr4 = new XMLHttpRequest();
+  console.log("lat: " + lat + " lon: " + lon);
+  // http://127.0.0.1:5000/hourly?lat=34.0522&lon=-118.2437;
+  const url4 = `http://127.0.0.1:5000/hourly?lat=${lat}&lon=${lon}`;
+  xhr4.open("GET", url4, true);
+  console.log("reached here4");
+  xhr4.onload = function () {
+    if (this.status === 200) {
+      console.log("reached here5");
+      const response = JSON.parse(this.responseText);
+      console.log(response);
+    }
+  };
+  xhr4.send();
+}
+
+function drawTempRangeChart() {
+  console.log("reach here 8");
+  console.log(tempRange);
+  Highcharts.chart("container1", {
+    chart: {
+      type: "arearange",
+      zooming: {
+        type: "x",
+      },
+      scrollablePlotArea: {
+        minWidth: 600,
+        scrollPositionX: 1,
+      },
+    },
+    title: {
+      text: "Temperature Range (Min, Max)",
+    },
+    xAxis: {
+      type: "datetime",
+      accessibility: {
+        rangeDescription: "Range: Jan 1st 2017 to Dec 31 2017.",
+      },
+    },
+    yAxis: {
+      title: {
+        text: null,
+      },
+    },
+    tooltip: {
+      crosshairs: true,
+      shared: true,
+      valueSuffix: "°C",
+      xDateFormat: "%A, %b %e",
+    },
+    legend: {
+      enabled: false,
+    },
+    series: [
+      {
+        name: "Temperatures",
+        data: tempRange,
+        color: {
+          linearGradient: {
+            x1: 0,
+            x2: 0,
+            y1: 0,
+            y2: 1,
+          },
+          stops: [
+            [0, "rgba(255, 165, 0, 1)"],
+            [1, "rgba(135, 206, 250, 1)"],
+          ],
+        },
+      },
+    ],
+  });
+}

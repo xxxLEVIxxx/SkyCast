@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>weather</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/datagrouping.js"></script>
+    <script src="https://code.highcharts.com/modules/windbarb.js"></script>
+    <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
   </head>
   <body>
     <div class="search-container">
@@ -98,10 +108,10 @@
       </div>
     </div>
 
-    <div class="hidden">
+    <div class="hidden1">
       <div class="vertical">
         <div class="card">
-          <div class="location">Long Beach, California</div>
+          <div class="location" id="location"></div>
           <div class="horizontal">
             <div class="vertical">
               <img src="" alt="" id="current-img" />
@@ -144,85 +154,128 @@
           </div>
         </div>
 
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Temp High</th>
+              <th>Temp Low</th>
+              <th>Wind Speed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="date0"></td>
+              <td id="status0">
+                <img src="" alt="" id="status-img0" />
+                <div id="status-text0"></div>
+              </td>
+              <td id="tempHigh0"></td>
+              <td id="tempLow0"></td>
+              <td id="windSpeed0"></td>
+            </tr>
+            <tr>
+              <td id="date1"></td>
+              <td id="status1">
+                <img src="" alt="" id="status-img1" />
+                <div id="status-text1"></div>
+              </td>
+              <td id="tempHigh1"></td>
+              <td id="tempLow1"></td>
+              <td id="windSpeed1"></td>
+            </tr>
+            <tr>
+              <td id="date2"></td>
+              <td id="status2">
+                <img src="" alt="" id="status-img2" />
+                <div id="status-text2"></div>
+              </td>
+              <td id="tempHigh2"></td>
+              <td id="tempLow2"></td>
+              <td id="windSpeed2"></td>
+            </tr>
+            <!-- Add more rows as needed -->
+
+            <tr>
+              <td id="date3"></td>
+              <td id="status3">
+                <img src="" alt="" id="status-img3" />
+                <div id="status-text3"></div>
+              </td>
+              <td id="tempHigh3"></td>
+              <td id="tempLow3"></td>
+              <td id="windSpeed3"></td>
+            </tr>
+
+            <tr>
+              <td id="date4"></td>
+              <td id="status4">
+                <img src="" alt="" id="status-img4" />
+                <div id="status-text4"></div>
+              </td>
+              <td id="tempHigh4"></td>
+              <td id="tempLow4"></td>
+              <td id="windSpeed4"></td>
+            </tr>
+
+            <tr>
+              <td id="date5"></td>
+              <td id="status5">
+                <img src="" alt="" id="status-img5" />
+                <div id="status-text5"></div>
+              </td>
+              <td id="tempHigh5"></td>
+              <td id="tempLow5"></td>
+              <td id="windSpeed5"></td>
+            </tr>
+          </tbody>
+        </table>
+
         <!-- weather forecast for the next week -->
-        <div class="vertical">
-          <div class="horizontalRow" id="header">
-            <div>Date</div>
-            <div>Status</div>
-            <div>Temp High</div>
-            <div>Temp Low</div>
-            <div>Wind Speed</div>
-          </div>
+      </div>
+    </div>
 
-          <div class="horizontalRow" id="row">
-            <div id="date0"></div>
-            <div id="status0">
-              <img src="" alt="" id="status-img0" />
-              <div id="status-text0"></div>
+    <div class="hidden2">
+      <div class="daily-detail">
+        <div class="center-heading">Daily Weather Details</div>
+        <div class="daily-card">
+          <div class="horizontal">
+            <div class="vertical">
+              <div id="daily-date">Wednesday, 11 Sep 2024</div>
+              <div>Mostly Clear</div>
+              <div>71.6F/64.22F</div>
             </div>
-            <div id="tempHigh0"></div>
-            <div id="tempLow0"></div>
-            <div id="windSpeed0"></div>
+            <img src="" alt="weather code" id="daily-img" />
           </div>
-
-          <div class="horizontalRow" id="row">
-            <div id="date1"></div>
-            <div id="status1">
-              <img src="" alt="" id="status-img1" />
-              <div id="status-text1"></div>
-            </div>
-            <div id="tempHigh1"></div>
-            <div id="tempLow1"></div>
-            <div id="windSpeed1"></div>
-          </div>
-
-          <div class="horizontalRow" id="row">
-            <div id="date2"></div>
-            <div id="status2">
-              <img src="" alt="" id="status-img2" />
-              <div id="status-text2"></div>
-            </div>
-            <div id="tempHigh2"></div>
-            <div id="tempLow2"></div>
-            <div id="windSpeed2"></div>
-          </div>
-
-          <div class="horizontalRow" id="row">
-            <div id="date3"></div>
-            <div id="status3">
-              <img src="" alt="" id="status-img3" />
-              <div id="status-text3"></div>
-            </div>
-            <div id="tempHigh3"></div>
-            <div id="tempLow3"></div>
-            <div id="windSpeed3"></div>
-          </div>
-
-          <div class="horizontalRow" id="row">
-            <div id="date4"></div>
-            <div id="status4">
-              <img src="" alt="" id="status-img4" />
-              <div id="status-text4"></div>
-            </div>
-            <div id="tempHigh4"></div>
-            <div id="tempLow4"></div>
-            <div id="windSpeed4"></div>
-          </div>
-
-          <div class="horizontalRow" id="row">
-            <div id="date5"></div>
-            <div id="status5">
-              <img src="" alt="" id="status-img5" />
-              <div id="status-text5"></div>
-            </div>
-            <div id="tempHigh5"></div>
-            <div id="tempLow5"></div>
-            <div id="windSpeed5"></div>
+          <div class="vertical">
+            <div>Precipitation:</div>
+            <div>Chance of Rain:</div>
+            <div>Wind Speed:</div>
+            <div>Humidity:</div>
+            <div>Visibility:</div>
+            <div>Sunrise/Sunset:</div>
           </div>
         </div>
+      </div>
+      <div class="weather-charts">
+        <div class="center-heading">Weather Charts</div>
+        <a><img alt="sign" /></a>
+        <figure class="highcharts-figure">
+          <div id="container1"></div>
+        </figure>
+        <figure class="highcharts-figure">
+          <div id="container2">
+            <div id="loading">
+              <i class="fa fa-spinner fa-spin"></i> Loading data from external
+              source
+            </div>
+          </div>
+        </figure>
       </div>
     </div>
 
     <script src="script.js"></script>
+    <script src="meteogram.js"></script>
   </body>
 </html>
