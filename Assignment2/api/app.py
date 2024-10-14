@@ -41,6 +41,7 @@ def get_data():
             iso_date= interval['startTime']
             date_obj = datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S%z")
             interval['startTime'] = date_obj.strftime("%A, %d %b %Y")
+            interval['values']['temperature'] = int(interval['values']['temperature'])
 
     return jsonify(intervals)
 
@@ -67,6 +68,14 @@ def get_nextweek():
             date_obj = datetime.strptime(iso_date, "%Y-%m-%dT%H:%M:%S%z")
             interval['startTime'] = date_obj.strftime("%A, %d %b %Y")
             interval['timeStamp'] = int(date_obj.timestamp()*1000)
+
+            iso_Sunrise = interval['values']['sunriseTime']
+            sunrise_obj = datetime.strptime(iso_Sunrise, "%Y-%m-%dT%H:%M:%S%z")
+            interval['values']['sunriseTime'] = sunrise_obj.strftime("%I%p").lstrip("0")
+
+            iso_Sunset = interval['values']['sunsetTime']
+            sunset_obj = datetime.strptime(iso_Sunset, "%Y-%m-%dT%H:%M:%S%z")
+            interval['values']['sunsetTime'] = sunset_obj.strftime("%I%p").lstrip("0")
 
     return jsonify(intervals)
 

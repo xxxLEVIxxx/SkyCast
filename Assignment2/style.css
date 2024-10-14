@@ -4,12 +4,25 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  font-family: "Helvetica", sans-serif;
 }
 
 .search-container {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.search-subtitle {
+  font-weight: 400;
+  color: rgb(75, 79, 82);
+  font-size: 16px;
+}
+
+.search-heading > b {
+  color: rgb(75, 79, 82);
+  font-size: 20px;
+  font-weight: 550;
 }
 
 .banner {
@@ -17,44 +30,148 @@ body {
   background-position: top;
   display: flex;
   flex-direction: column;
-  width: 33vw;
+  width: 30vw;
   gap: 20px;
-  padding: 30px;
+  padding: 30px 30px 20px 30px;
+  border: 1px solid rgb(202, 202, 202);
 }
 
 .search-input {
   background-color: rgb(254, 254, 254);
-  padding: 30px;
-  width: 33vw;
+  padding: 20px 30px 30px 30px;
+  width: 30vw;
+  color: rgb(91, 112, 172);
+  border-left: 1px solid rgb(202, 202, 202);
+  border-right: 1px solid rgb(202, 202, 202);
+  border-top: none;
+  border-bottom: 3px solid rgb(202, 202, 202);
+}
+
+.asterisk {
+  color: rgb(249, 155, 185);
+}
+
+.first-row {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 8px;
+  color: rgb(91, 112, 172);
+  font-size: 13px;
 }
 
 .second-row {
+  margin-top: 15px;
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 20px;
+  color: rgb(91, 112, 172);
 }
+
+.second-row-left {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 8px;
+  color: rgb(91, 112, 172);
+  font-size: 13px;
+  flex-grow: 0.4;
+}
+
+.second-row-right {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 8px;
+  color: rgb(91, 112, 172);
+  font-size: 13px;
+  flex-grow: 1;
+}
+
 #street {
-  width: 90%;
+  height: 24px;
+  border: solid 1px rgb(202, 202, 202);
+}
+
+#city {
+  border: solid 1px rgb(202, 202, 202);
+  height: 24px;
 }
 
 .third-row {
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  color: rgb(91, 112, 172);
+}
+
+select {
+}
+.fourth-row {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  font-weight: 100;
+}
+#search {
+  padding: 12px 20px;
+  background-color: rgb(85, 110, 168);
+  color: white;
+  text-align: center;
+  border: none;
+  border-bottom: 4px solid rgb(60, 77, 119);
+}
+
+#search:hover {
+  padding: 12px 20px;
+  background-color: rgb(97, 122, 168);
+  color: white;
+  text-align: center;
+  border-bottom: 4px solid rgb(60, 77, 119);
+}
+
+#clear {
+  padding: 12px 24px;
+  background-color: rgb(252, 185, 12);
+  color: white;
+  text-align: center;
+  border: none;
+  border-bottom: 4px solid rgb(248, 140, 7);
+}
+#clear:hover {
+  padding: 12px 24px;
+  background-color: rgb(242, 160, 27);
+  color: white;
+  text-align: center;
+  border-bottom: 4px solid rgb(248, 140, 7);
 }
 
 .hidden1 {
-  margin-top: 28px;
+  margin-top: 20px;
 }
 
 .card {
   background-color: rgb(254, 254, 254);
   display: flex;
   flex-direction: column;
-  max-width: fit-content;
-  padding: 20px;
+  width: 45vw;
+  padding: 15px 30px 25px 25px;
+  color: rgb(116, 116, 116);
+  border: 1px solid rgb(202, 202, 202);
+  border-bottom: 3px solid rgb(202, 202, 202);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); /* Add a shadow */
+}
+#card-second-row {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  gap: 220px;
+  font-size: 18px;
+  margin-left: 10px;
 }
 
 .info {
@@ -62,11 +179,13 @@ body {
   flex-direction: row;
   gap: 20px;
   background-color: rgb(254, 254, 254);
+  justify-content: space-between;
+  margin-top: 40px;
 }
 
 .info img {
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
 }
 
 .info-card {
@@ -76,31 +195,39 @@ body {
   align-items: center;
 }
 
+#location {
+  text-align: left;
+  font-size: 24px;
+  font-weight: 100;
+}
+
 #current-img {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
+}
+
+#weather-combo {
+  gap: 15px;
 }
 
 [class^="horizontal"] {
   display: flex;
   flex-direction: row;
-  padding-right: 50px;
   justify-content: space-between;
-
   align-items: center;
 }
 
 .vertical {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   text-align: center;
   align-items: center;
 }
 
 #temperature {
-  font-size: 80px;
+  font-size: 120px;
   color: rgb(135, 135, 135);
+  font-weight: 100;
 }
 
 #header {
@@ -116,14 +243,19 @@ body {
 }
 
 [id^="status"] {
-  display: flex;
-  flex-direction: row;
   align-items: center;
 }
 
 .daily-card {
   background: linear-gradient(to bottom, white, rgb(64, 81, 125));
   width: 33vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+  border: 1px solid rgb(202, 202, 202);
+  border-bottom: 2px solid rgb(202, 202, 202);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); /* Add a shadow */
 }
 
 .daily-detail {
@@ -134,7 +266,6 @@ body {
 }
 
 .weather-charts {
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,26 +273,33 @@ body {
 }
 
 .center-heading {
-  font-size: 32px;
+  font-size: 36px;
+  font-weight: 100;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 table {
-  width: 75vw;
+  width: 70vw;
   border-collapse: separate;
   border-spacing: 0 10px;
-  margin: 20px 0;
+  margin-top: 32px;
 }
 th {
   background-color: rgb(85, 110, 168);
-  color: black;
-  font-size: 20px;
-  padding: 10px;
+  color: rgb(28, 69, 89);
+  font-size: 16px;
+  padding: 12px;
   font-weight: normal;
 }
 td {
-  padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 15px;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
+  color: rgb(50, 50, 50);
+  font-weight: 400;
+  font-size: 15px;
 }
 
 tbody {
@@ -174,14 +312,13 @@ tbody {
 }
 
 #container1 {
-  height: 400px;
+  height: 300px;
   width: 800px;
 }
 
 #container2 {
   width: 800px;
   height: 400px;
-  margin: 0 auto;
 }
 
 #loading {
@@ -189,45 +326,85 @@ tbody {
   text-align: center;
 }
 
-.highcharts-figure,
-.highcharts-data-table table {
+.highcharts-figure {
   min-width: 350px;
   max-width: 800px;
-  margin: 1em auto;
 }
 
-.highcharts-data-table table {
-  font-family: Verdana, sans-serif;
-  border-collapse: collapse;
-  border: 1px solid #ebebeb;
-  margin: 10px auto;
-  text-align: center;
-  width: 100%;
-  max-width: 500px;
+#toggleArrow {
+  width: 40px;
+  height: 40px;
 }
 
-.highcharts-data-table caption {
-  padding: 1em 0;
-  font-size: 1.2em;
-  color: #555;
+.clickable {
+  cursor: pointer;
+}
+#daily-img {
+  width: 150px;
+  height: 150px;
 }
 
-.highcharts-data-table th {
-  font-weight: 600;
-  padding: 0.5em;
+#white-text {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  color: white;
+  gap: 10px;
+  font-size: 18px;
+  margin-top: 30px;
+  font-weight: 500;
 }
 
-.highcharts-data-table td,
-.highcharts-data-table th,
-.highcharts-data-table caption {
-  padding: 0.5em;
+#detail-first-row {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
 }
 
-.highcharts-data-table thead tr,
-.highcharts-data-table tr:nth-child(even) {
-  background: #f8f8f8;
+#detail-first-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  gap: 20px;
+  color: rgb(52, 76, 121);
 }
 
-.highcharts-data-table tr:hover {
-  background: #f1f7ff;
+#daily-date {
+  font-size: 24px;
+}
+
+#daily-weather {
+  font-size: 24px;
+}
+
+#daily-temp {
+  font-size: 32px;
+}
+
+#head {
+  margin-top: 45px;
+  margin-bottom: 0px;
+}
+
+.hor {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+.label {
+  justify-self: end;
+  font-size: 16px;
+  font-weight: 550;
+}
+
+.value {
+  justify-self: start;
+  font-size: 20px;
+  font-weight: 550;
 }
