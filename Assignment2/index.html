@@ -41,7 +41,7 @@
           <div class="second-row-right">
             <div>State<span class="asterisk">*</span></div>
             <select id="state" name="state" required>
-              <option>Select your state</option>
+              <option value="" disabled selected>Select your state</option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
               <option value="AZ">Arizona</option>
@@ -102,8 +102,8 @@
         </div>
 
         <div class="fourth-row">
-          <button id="search">SUBMIT</button>
-          <button id="clear" onclick="{clear}">CLEAR</button>
+          <button type="button" id="search">SUBMIT</button>
+          <button type="button" id="clear" onclick="{clear}">CLEAR</button>
         </div>
       </form>
     </div>
@@ -201,7 +201,6 @@
               <td id="tempLow2"></td>
               <td id="windSpeed2"></td>
             </tr>
-            <!-- Add more rows as needed -->
 
             <tr class="clickable">
               <td id="date3"></td>
@@ -243,8 +242,6 @@
             </tr>
           </tbody>
         </table>
-
-        <!-- weather forecast for the next week -->
       </div>
     </div>
 
@@ -281,10 +278,10 @@
         <a href="#" id="arrow"
           ><img src="./Images/point-down-512.png" id="toggleArrow"
         /></a>
-        <figure class="highcharts-figure">
+        <figure class="highcharts-figure" id="chart1">
           <div id="container1"></div>
         </figure>
-        <figure class="highcharts-figure">
+        <figure class="highcharts-figure" id="chart2">
           <div id="container2">
             <div id="loading">
               <i class="fa fa-spinner fa-spin"></i> Loading data from external

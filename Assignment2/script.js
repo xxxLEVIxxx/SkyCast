@@ -1,4 +1,3 @@
-//global variables
 const weatherCodes = {
   0: "Unknown",
   1000: ["Clear", "./Images/Weather Symbols for Weather Codes/clear_day.svg"],
@@ -74,37 +73,58 @@ const weatherCodes = {
   ],
 };
 
+const precipitationCodes = {
+  0: "N/A",
+  1: "Rain",
+  2: "Snow",
+  3: "Freezing Rain",
+  4: "Ice Pellets",
+};
+
 tempRange = [];
 hourlyData = {};
+
+// checkbox function
+document.getElementById("checkbox").addEventListener("change", function () {
+  requiredFields = document
+    .getElementById("myForm")
+    .querySelectorAll("[required]");
+
+  if (this.checked) {
+    // when checked we need to avoid the default behavior of the form
+    requiredFields.forEach(function (field) {
+      field.removeAttribute("required");
+    });
+    console.log("removed required");
+  } else {
+    // when unchecked we need to add the required attribute back
+    requiredFields.forEach(function (field) {
+      field.setAttribute("required", "required");
+    });
+    console.log("added required");
+  }
+});
 
 //clear function
 document.getElementById("clear").addEventListener("click", function () {
   document.getElementById("street").value = "";
   document.getElementById("city").value = "";
   document.getElementById("state").value = "";
-  document.getElementById("checkbox").checked = false;
-  document.getElementById("hidden1").hidden = true;
-  document.getElementById("hidden2").hidden = true;
-});
 
-//checkbox function
-document.getElementById("checkbox").addEventListener("change", function () {
-  requiredFields = document
-    .getElementById("myForm")
-    .querySelectorAll("[required]");
-  if (this.checked) {
-    requiredFields.forEach(function (field) {
-      field.removeAttribute("required");
-    });
-  } else {
-    requiredFields.forEach(function (field) {
-      field.setAttribute("required", "required");
-    });
+  const checkbox = document.getElementById("checkbox");
+  if (checkbox.checked) {
+    checkbox.checked = false;
+    const event = new Event("change");
+    checkbox.dispatchEvent(event);
   }
+  //   document.getElementById("hidden1").hidden = true;
+  //   document.getElementById("hidden2").hidden = true;
+
+  location.reload();
 });
 
 //submit function
-document.getElementById("search").addEventListener("click", function () {
+document.getElementById("search").addEventListener("click", function (event) {
   const street = document.getElementById("street").value.split(" ").join("+");
   const city = document.getElementById("city").value.split(" ").join("+");
   const state = document.getElementById("state").value;
@@ -114,63 +134,49 @@ document.getElementById("search").addEventListener("click", function () {
   const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${street},+${city},+${state}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
   console.log(google_url);
 
-  var lat = 0;
-  var lon = 0;
+  let lat, lon, location;
 
-  console.log(autoDetect);
-  // is auto detect is checked,
   if (autoDetect) {
-    xhr.open("GET", ip_url, true);
-    xhr.onload = function () {
-      if (this.status === 200) {
-        console.log(this.responseText);
-        const response = JSON.parse(this.responseText);
-        console.log(response);
-        const location = response.loc.split(",");
-        const location2 = response.city + ", " + response.region;
-        document.getElementById("location").innerHTML = location2;
-        console.log(location);
-        lat = location[0];
-        lon = location[1];
+    fetch(ip_url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        lat = data.loc.split(",")[0];
+        lon = data.loc.split(",")[1];
+        location = data.city + ", " + data.region;
+        document.getElementById("location").innerHTML = location;
+        console.log(lat, lon, location);
+
         getCurrentWeather(lat, lon);
-
         getWeeklyWeather(lat, lon);
-
         getHourlyWeather(lat, lon);
 
         document.getElementById("hidden1").hidden = false;
-      }
-    };
-
-    xhr.send();
+      });
   } else {
-    xhr.open("GET", google_url, true);
-    xhr.onload = function () {
-      if (this.status === 200) {
-        const response = JSON.parse(this.responseText);
-        console.log(response);
-        const location = response.results[0].geometry.location;
-        lat = location.lat;
-        lon = location.lng;
-        document.getElementById("location").innerHTML =
-          response.results[0].formatted_address;
+    fetch(google_url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        lat = data.results[0].geometry.location.lat;
+        lon = data.results[0].geometry.location.lng;
+        location = data.results[0].formatted_address;
+        document.getElementById("location").innerHTML = location;
+        console.log(lat, lon, location);
+
         getCurrentWeather(lat, lon);
-
         getWeeklyWeather(lat, lon);
-
         getHourlyWeather(lat, lon);
 
         document.getElementById("hidden1").hidden = false;
-      }
-    };
-
-    xhr.send();
+      });
   }
 });
 
 function getCurrentWeather(lat, lon) {
   const xhr2 = new XMLHttpRequest();
-  const url2 = `http://127.0.0.1:5000/current?lat=${lat}&lon=${lon}`;
+
+  const url2 = `https://csci571-436414.wl.r.appspot.com/current?lat=${lat}&lon=${lon}`;
   xhr2.open("GET", url2, true);
   xhr2.onload = function () {
     if (this.status === 200) {
@@ -201,7 +207,7 @@ function getCurrentWeather(lat, lon) {
 function getWeeklyWeather(lat, lon) {
   const xhr3 = new XMLHttpRequest();
   // http://127.0.0.1:5000/nextweek?lat=34.0522&lon=-118.2437;
-  const url3 = `http://127.0.0.1:5000/nextweek?lat=${lat}&lon=${lon}`;
+  const url3 = `  https://csci571-436414.wl.r.appspot.com/nextweek?lat=${lat}&lon=${lon}`;
   xhr3.open("GET", url3, true);
   console.log("reached here3");
   xhr3.onload = function () {
@@ -242,7 +248,7 @@ function getHourlyWeather(lat, lon) {
   const xhr4 = new XMLHttpRequest();
   console.log("lat: " + lat + " lon: " + lon);
   // http://127.0.0.1:5000/hourly?lat=34.0522&lon=-118.2437;
-  const url4 = `http://127.0.0.1:5000/hourly?lat=${lat}&lon=${lon}`;
+  const url4 = `https://csci571-436414.wl.r.appspot.com/hourly?lat=${lat}&lon=${lon}`;
   xhr4.open("GET", url4, true);
   console.log("reached here4");
   xhr4.onload = function () {
@@ -298,7 +304,7 @@ function drawTempRangeChart() {
     tooltip: {
       crosshairs: true,
       shared: true,
-      valueSuffix: "°C",
+      valueSuffix: "°F",
       xDateFormat: "%A, %b %e",
     },
     legend: {
@@ -306,7 +312,7 @@ function drawTempRangeChart() {
     },
     series: [
       {
-        name: "Temperatures",
+        name: "",
         data: tempRange,
         color: {
           linearGradient: {
@@ -319,6 +325,11 @@ function drawTempRangeChart() {
             [0, "rgba(255, 165, 0, 1)"],
             [1, "rgba(135, 206, 250, 1)"],
           ],
+        },
+        tooltip: {
+          pointFormat:
+            '<span style="color:{point.color}">\u25CF</span> ' +
+            "Temperature: <b>{point.low} - {point.high}</b><br/>",
         },
       },
     ],
@@ -651,13 +662,14 @@ function tableRowClick(data) {
     row.addEventListener("click", function () {
       document.getElementById("hidden2").hidden = false;
       document.getElementById("hidden1").hidden = true;
-      updateDailyDetail(data, row.rowIndex);
+      updateDailyDetail(data, row.rowIndex - 1);
       arrow.scrollIntoView({ block: "end" });
     });
   });
 }
 
 function updateDailyDetail(data, i) {
+  console.log(data[i].values.precipitation);
   document.getElementById("daily-date").innerHTML = data[i].startTime;
   document.getElementById("daily-img").src =
     weatherCodes[data[i].values.weatherCode][1];
@@ -675,7 +687,7 @@ function updateDailyDetail(data, i) {
   document.getElementById("daily-visibility").innerHTML =
     data[i].values.visibility + " mi";
   document.getElementById("daily-prec").innerHTML =
-    data[i].values.precipitation;
+    precipitationCodes[data[i].values.precipitationType];
   document.getElementById("daily-chance").innerHTML =
     data[i].values.precipitationProbability + "%";
   document.getElementById("daily-sunrise").innerHTML =

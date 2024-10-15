@@ -326,11 +326,6 @@ tbody {
   text-align: center;
 }
 
-.highcharts-figure {
-  min-width: 350px;
-  max-width: 800px;
-}
-
 #toggleArrow {
   width: 40px;
   height: 40px;
@@ -407,4 +402,11 @@ tbody {
   justify-self: start;
   font-size: 20px;
   font-weight: 550;
+}
+
+#chart1 {
+  margin-top: -20px;
+}
+#chart2 {
+  margin-top: -10px;
 }

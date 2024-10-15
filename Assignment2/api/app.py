@@ -2,24 +2,10 @@ from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/api', methods=['GET'])
-def api():
-    data = {
-        "street": "1241 W 37th Pl",
-        "city": "Los Angeles",
-        "state": "CA",
-        "autoDetect": "true"
-    }
-    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
-
-
-    return jsonify(data)
-
-
 
 @app.route('/current', methods=['GET'])
 def get_data():
@@ -107,4 +93,4 @@ def get_hourly():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1',port=5000)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
