@@ -90,6 +90,7 @@ body {
 
 #street {
   height: 24px;
+  width: 100%;
   border: solid 1px rgb(202, 202, 202);
 }
 
@@ -98,6 +99,9 @@ body {
   height: 24px;
 }
 
+select {
+  width: 100%;
+}
 .third-row {
   margin-top: 30px;
   display: flex;
@@ -105,9 +109,10 @@ body {
   align-items: center;
   color: rgb(91, 112, 172);
 }
-
-select {
+#tooltip-state {
+  display: flex;
 }
+
 .fourth-row {
   margin-top: 30px;
   display: flex;
@@ -398,7 +403,7 @@ tbody {
   font-weight: 550;
 }
 
-.value {
+.value2 {
   justify-self: start;
   font-size: 20px;
   font-weight: 550;
@@ -409,4 +414,54 @@ tbody {
 }
 #chart2 {
   margin-top: -10px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: rgb(235, 235, 235);
+  color: #000000;
+  text-align: center;
+  font-size: 11px;
+  border-radius: 20px;
+  padding: 4px;
+  position: absolute;
+  z-index: 1;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: 0.5px solid rgb(195, 195, 195);
+  width: 80px;
+}
+.tooltip .tooltiptext::before,
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+.tooltip .tooltiptext::before {
+  border-color: rgba(195, 195, 195, 0);
+  border-top-color: rgb(195, 195, 195);
+  border-width: 11px;
+  margin-left: -11px;
+}
+.tooltip .tooltiptext::after {
+  border-color: rgba(235, 235, 235, 0);
+  border-top-color: rgb(235, 235, 235);
+  border-width: 10px;
+  margin-left: -10px;
+}
+.show-tooltip .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

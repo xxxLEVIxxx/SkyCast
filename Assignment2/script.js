@@ -110,6 +110,8 @@ document.getElementById("clear").addEventListener("click", function () {
   document.getElementById("street").value = "";
   document.getElementById("city").value = "";
   document.getElementById("state").value = "";
+  tempRange = [];
+  hourlyData = {};
 
   const checkbox = document.getElementById("checkbox");
   if (checkbox.checked) {
@@ -123,16 +125,26 @@ document.getElementById("clear").addEventListener("click", function () {
   location.reload();
 });
 
+//
+
 //submit function
 document.getElementById("search").addEventListener("click", function (event) {
-  const street = document.getElementById("street").value.split(" ").join("+");
-  const city = document.getElementById("city").value.split(" ").join("+");
+  const street = document.getElementById("street").value;
+  const city = document.getElementById("city").value;
   const state = document.getElementById("state").value;
   const autoDetect = document.getElementById("checkbox").checked;
   const xhr = new XMLHttpRequest();
   const ip_url = "https://ipinfo.io/?token=b72b65292cdc46";
-  const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${street},+${city},+${state}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
+  const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${street
+    .split(" ")
+    .join("+")},+${city
+    .split(" ")
+    .join("+")},+${state}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
   console.log(google_url);
+
+  const tooltip1 = document.getElementById("tooltipText1");
+  const tooltip2 = document.getElementById("tooltipText2");
+  const tooltip3 = document.getElementById("tooltipText3");
 
   let lat, lon, location;
 
@@ -154,22 +166,40 @@ document.getElementById("search").addEventListener("click", function (event) {
         document.getElementById("hidden1").hidden = false;
       });
   } else {
-    fetch(google_url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        lat = data.results[0].geometry.location.lat;
-        lon = data.results[0].geometry.location.lng;
-        location = data.results[0].formatted_address;
-        document.getElementById("location").innerHTML = location;
-        console.log(lat, lon, location);
+    if (street.trim() === "") {
+      tooltip1.parentElement.classList.add("show-tooltip"); // Show tooltip if input is empty
 
-        getCurrentWeather(lat, lon);
-        getWeeklyWeather(lat, lon);
-        getHourlyWeather(lat, lon);
+      tooltip2.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      tooltip3.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+    } else if (city.trim() === "") {
+      tooltip1.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      tooltip2.parentElement.classList.add("show-tooltip"); // Show tooltip if input is empty
+      tooltip3.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+    } else if (state.trim() === "") {
+      tooltip1.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      tooltip2.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      tooltip3.parentElement.classList.add("show-tooltip"); // Show tooltip if input is empty
+    } else {
+      tooltip1.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      tooltip2.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      tooltip3.parentElement.classList.remove("show-tooltip"); // Hide tooltip if input has value
+      fetch(google_url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          lat = data.results[0].geometry.location.lat;
+          lon = data.results[0].geometry.location.lng;
+          location = data.results[0].formatted_address;
+          document.getElementById("location").innerHTML = location;
+          console.log(lat, lon, location);
 
-        document.getElementById("hidden1").hidden = false;
-      });
+          getCurrentWeather(lat, lon);
+          getWeeklyWeather(lat, lon);
+          getHourlyWeather(lat, lon);
+
+          document.getElementById("hidden1").hidden = false;
+        });
+    }
   }
 });
 

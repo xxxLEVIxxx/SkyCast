@@ -30,69 +30,82 @@
       <form class="search-input" id="myForm">
         <div class="first-row">
           <div>Street<span class="asterisk">*</span></div>
-          <input type="text" id="street" required />
+          <div class="tooltip">
+            <input type="text" id="street" value="" />
+            <span class="tooltiptext" id="tooltipText1"
+              >Fill out this field</span
+            >
+          </div>
         </div>
 
         <div class="second-row">
           <div class="second-row-left">
             <div>City<span class="asterisk">*</span></div>
-            <input type="text" id="city" required />
+            <div class="tooltip">
+              <input type="text" id="city" value="" />
+              <span class="tooltiptext" id="tooltipText2"
+                >Fill out this field</span
+              >
+            </div>
           </div>
           <div class="second-row-right">
             <div>State<span class="asterisk">*</span></div>
-            <select id="state" name="state" required>
-              <option value="" disabled selected>Select your state</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="KS">Kansas</option>
-              <option value="KY">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-            </select>
+            <div class="tooltip" id="tooltip-state">
+              <select id="state" name="state">
+                <option value="" disabled selected>Select your state</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+              </select>
+              <span class="tooltiptext" id="tooltipText3">Select a state</span>
+            </div>
           </div>
         </div>
 
@@ -259,17 +272,17 @@
           </div>
           <div class="vertical" id="white-text">
             <span class="label">Precipitation: </span
-            ><span class="value" id="daily-prec"></span>
+            ><span class="value2" id="daily-prec"></span>
             <span class="label">Chance of Rain: </span
-            ><span class="value" id="daily-chance"></span>
+            ><span class="value2" id="daily-chance"></span>
             <span class="label">Wind Speed: </span
-            ><span class="value" id="daily-wind-speed"></span>
+            ><span class="value2" id="daily-wind-speed"></span>
             <span class="label">Humidity: </span
-            ><span class="value" id="daily-humidity"></span>
+            ><span class="value2" id="daily-humidity"></span>
             <span class="label">Visibility: </span
-            ><span class="value" id="daily-visibility"></span>
+            ><span class="value2" id="daily-visibility"></span>
             <span class="label">Sunrise/Sunset: </span
-            ><span class="value" id="daily-sunrise"></span>
+            ><span class="value2" id="daily-sunrise"></span>
           </div>
         </div>
       </div>
