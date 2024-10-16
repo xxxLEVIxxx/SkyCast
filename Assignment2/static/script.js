@@ -680,13 +680,13 @@ let isTrue = true;
 arrow.addEventListener("click", function (e) {
   e.preventDefault();
   if (isTrue) {
+    document.getElementById("charts").hidden = false;
     toggleArrow.src = "./Images/point-up-512.png";
     arrow.scrollIntoView({ block: "start" });
-    document.getElementById("charts").hidden = false;
   } else {
+    document.getElementById("charts").hidden = true;
     toggleArrow.src = "./Images/point-down-512.png";
     arrow.scrollIntoView({ block: "end" });
-    document.getElementById("charts").hidden = true;
   }
   isTrue = !isTrue;
 });
