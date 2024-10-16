@@ -682,9 +682,11 @@ arrow.addEventListener("click", function (e) {
   if (isTrue) {
     toggleArrow.src = "./Images/point-up-512.png";
     arrow.scrollIntoView({ block: "start" });
+    document.getElementById("charts").hidden = false;
   } else {
     toggleArrow.src = "./Images/point-down-512.png";
     arrow.scrollIntoView({ block: "end" });
+    document.getElementById("charts").hidden = true;
   }
   isTrue = !isTrue;
 });
