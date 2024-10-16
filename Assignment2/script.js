@@ -223,11 +223,11 @@ function getCurrentWeather(lat, lon) {
       document.getElementById("humidity-val").innerHTML = data.humidity + "%";
       document.getElementById("pressure-val").innerHTML =
         data.pressureSeaLevel + "inHg";
-      document.getElementById("wind-val").innerHTML = data.windSpeed + "mph";
+      document.getElementById("wind-val").innerHTML = data.windSpeed + " mph";
       document.getElementById("visibility-val").innerHTML =
         data.visibility + "mi";
       document.getElementById("cloudCover-val").innerHTML =
-        data.cloudCover + "%";
+        data.cloudCover + " %";
       document.getElementById("UV-val").innerHTML = data.uvIndex;
     }
   };
@@ -356,6 +356,12 @@ function drawTempRangeChart() {
             [1, "rgba(135, 206, 250, 1)"],
           ],
         },
+        lineColor: "rgba(255, 165, 0, 1)",
+        marker: {
+          enabled: true,
+          fillColor: "rgba(44, 156, 252, 1)",
+        },
+
         tooltip: {
           pointFormat:
             '<span style="color:{point.color}">\u25CF</span> ' +
