@@ -481,3 +481,13 @@ tbody {
   visibility: visible;
   opacity: 1;
 }
+
+.hidden {
+  width: 30vw;
+  text-align: center;
+  background-color: rgb(254, 254, 254);
+  padding: 8px 30px 8px 30px;
+  border: 1px solid rgb(202, 202, 202);
+  border-bottom: 3px solid rgb(202, 202, 202);
+  font-size: 13px;
+}

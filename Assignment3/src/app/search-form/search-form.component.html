@@ -1,0 +1,134 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" id="form">
+  <div id="heading1">Weather Search</div>
+  <div class="groups">
+    <div class="form-group">
+      <label for="street">Street<span>*</span></label>
+      <div class="vertical">
+        <input
+          (blur)="onBlur(street, streetAlert)"
+          type="text"
+          #street
+          name="street"
+          class="form-control"
+          ngModel
+          [required]="requiredFields"
+        />
+        <div #streetAlert class="myAlert">Please neter a valid street</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="city">City<span>*</span></label>
+      <div class="vertical">
+        <input
+          (blur)="onBlur(city, cityAlert)"
+          type="text"
+          #city
+          name="city"
+          class="form-control"
+          ngModel
+          [required]="requiredFields"
+          list="city-datalist"
+          (input)="onCityInput(city, datalist)"
+        />
+        <datalist id="city-datalist" #datalist></datalist>
+        <div #cityAlert class="myAlert">Please enter a valid city</div>
+      </div>
+    </div>
+
+    <div id="third-row">
+      <label for="state">State<span>*</span></label>
+      <input
+        list="state-datalist"
+        id="state"
+        name="state"
+        (blur)="onBlur2(state)"
+        (input)="onInput(state)"
+        class="form-control"
+        #state
+        ngModel
+        [required]="requiredFields"
+        placeholder="Select your state"
+      />
+
+      <datalist id="state-datalist">
+        <option value="Alabama"></option>
+        <option value="Alaska"></option>
+        <option value="Arizona"></option>
+        <option value="Arkansas"></option>
+        <option value="California"></option>
+        <option value="Colorado"></option>
+        <option value="Connecticut"></option>
+        <option value="Delaware"></option>
+        <option value="Florida"></option>
+        <option value="Georgia"></option>
+        <option value="Hawaii"></option>
+        <option value="Idaho"></option>
+        <option value="Illinois"></option>
+        <option value="Indiana"></option>
+        <option value="Iowa"></option>
+        <option value="Kansas"></option>
+        <option value="Kentucky"></option>
+        <option value="Louisiana"></option>
+        <option value="Maine"></option>
+        <option value="Maryland"></option>
+        <option value="Massachusetts"></option>
+        <option value="Michigan"></option>
+        <option value="Minnesota"></option>
+        <option value="Mississippi"></option>
+        <option value="Missouri"></option>
+        <option value="Montana"></option>
+        <option value="Nebraska"></option>
+        <option value="Nevada"></option>
+        <option value="New Hampshire"></option>
+        <option value="New Jersey"></option>
+        <option value="New Mexico"></option>
+        <option value="New York"></option>
+        <option value="North Carolina"></option>
+        <option value="North Dakota"></option>
+        <option value="Ohio"></option>
+        <option value="Oklahoma"></option>
+        <option value="Oregon"></option>
+        <option value="Pennsylvania"></option>
+        <option value="Rhode Island"></option>
+        <option value="South Carolina"></option>
+        <option value="South Dakota"></option>
+        <option value="Tennessee"></option>
+        <option value="Texas"></option>
+        <option value="Utah"></option>
+        <option value="Vermont"></option>
+        <option value="Virginia"></option>
+        <option value="Washington"></option>
+        <option value="West Virginia"></option>
+        <option value="Wisconsin"></option>
+        <option value="Wyoming"></option>
+      </datalist>
+    </div>
+  </div>
+
+  <div class="horizontal">
+    <div>Autodetect Location<span>*</span></div>
+    <div id="hor1">
+      <input
+        type="checkbox"
+        id="checkbox"
+        #checkbox
+        (change)="onCheckboxChange()"
+      />
+      <div>Current Location</div>
+    </div>
+  </div>
+  <div class="horizontal">
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Search
+    </button>
+    <button
+      type="button"
+      class="btn"
+      id="clear"
+      (click)="onClear(form, checkbox)"
+    >
+      Clear
+    </button>
+  </div>
+</form>

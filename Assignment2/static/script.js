@@ -83,6 +83,9 @@ const precipitationCodes = {
 
 tempRange = [];
 hourlyData = {};
+let res1,
+  res2,
+  res3 = false;
 
 // checkbox function
 document.getElementById("checkbox").addEventListener("change", function () {
@@ -162,8 +165,6 @@ document.getElementById("search").addEventListener("click", function (event) {
         getCurrentWeather(lat, lon);
         getWeeklyWeather(lat, lon);
         getHourlyWeather(lat, lon);
-
-        document.getElementById("hidden1").hidden = false;
       });
   } else {
     if (street.trim() === "") {
@@ -196,8 +197,6 @@ document.getElementById("search").addEventListener("click", function (event) {
           getCurrentWeather(lat, lon);
           getWeeklyWeather(lat, lon);
           getHourlyWeather(lat, lon);
-
-          document.getElementById("hidden1").hidden = false;
         });
     }
   }
@@ -210,6 +209,7 @@ function getCurrentWeather(lat, lon) {
   xhr2.open("GET", url2, true);
   xhr2.onload = function () {
     if (this.status === 200) {
+      res1 = true;
       const response = JSON.parse(this.responseText);
 
       const data = response[0].values;
@@ -229,6 +229,11 @@ function getCurrentWeather(lat, lon) {
       document.getElementById("cloudCover-val").innerHTML =
         data.cloudCover + " %";
       document.getElementById("UV-val").innerHTML = data.uvIndex;
+      if (res1 && res2 && res3) {
+        document.getElementById("hidden1").hidden = false;
+      }
+    } else {
+      document.getElementById("hidden").hidden = false;
     }
   };
   xhr2.send();
@@ -242,6 +247,7 @@ function getWeeklyWeather(lat, lon) {
   console.log("reached here3");
   xhr3.onload = function () {
     if (this.status === 200) {
+      res2 = true;
       const response = JSON.parse(this.responseText);
       console.log(response);
 
@@ -264,10 +270,16 @@ function getWeeklyWeather(lat, lon) {
           response[i].values.temperatureMin,
           response[i].values.temperatureMax,
         ]);
+
+        if (res1 && res2 && res3) {
+          document.getElementById("hidden1").hidden = false;
+        }
       }
       drawTempRangeChart();
       console.log(tempRange);
       tableRowClick(response);
+    } else {
+      document.getElementById("hidden").hidden = false;
     }
   };
 
@@ -283,12 +295,18 @@ function getHourlyWeather(lat, lon) {
   console.log("reached here4");
   xhr4.onload = function () {
     if (this.status === 200) {
+      res3 = true;
       console.log("reached here5");
       const response = JSON.parse(this.responseText);
       console.log(response);
       hourlyData = { weatherData: response };
       console.log(hourlyData);
+      if (res1 && res2 && res3) {
+        document.getElementById("hidden1").hidden = false;
+      }
       drawHourlyChart();
+    } else {
+      document.getElementById("hidden").hidden = false;
     }
   };
   xhr4.send();
