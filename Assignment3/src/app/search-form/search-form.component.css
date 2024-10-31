@@ -10,6 +10,7 @@ span {
 }
 
 form {
+  align-self: stretch;
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 16px;
@@ -82,11 +83,107 @@ form {
 #checkbox:checked {
   background-color: #d9a700;
 }
+
+#nav {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+
+a {
+  cursor: pointer;
+}
+
+#fav-table {
+  display: none;
+  align-self: stretch;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#results {
+  /* display: none; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: stretch;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#tabs {
+  align-self: stretch;
+}
+.nav {
+  justify-content: flex-end;
+}
+
+#page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#warning {
+  display: none;
+  align-self: stretch;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+#danger {
+  display: none;
+  align-self: stretch;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.table {
+  align-self: stretch;
+}
+
+#search-text {
+  color: white;
+  margin-left: -5px;
+}
+#clear-text {
+  color: #777777;
+  margin-left: -2px;
+}
+
+#clear-img {
+  transform: scaleX(-1);
+}
+
+#favorite-icon {
+  width: 48px;
+}
+
+.view {
+  align-self: stretch;
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+}
+.status > img {
+  width: 32px;
+  height: 32px;
+}
+
 @media (max-width: 1024px) {
   form {
     margin: 16px 8px;
     margin-bottom: 0px;
     padding-bottom: 0;
+  }
+  #results {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 
   .form-group {
@@ -114,5 +211,14 @@ form {
   }
   label {
     margin-bottom: 0;
+  }
+
+  #warning {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  #danger {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 }

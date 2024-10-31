@@ -1,134 +1,247 @@
-<form #form="ngForm" (ngSubmit)="onSubmit(form)" id="form">
-  <div id="heading1">Weather Search</div>
-  <div class="groups">
-    <div class="form-group">
-      <label for="street">Street<span>*</span></label>
-      <div class="vertical">
+<div id="page">
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)" id="form">
+    <div id="heading1">Weather Search</div>
+    <div class="groups">
+      <div class="form-group">
+        <label for="street">Street<span>*</span></label>
+        <div class="vertical">
+          <input
+            (blur)="onBlur(street, streetAlert)"
+            type="text"
+            #street
+            name="street"
+            class="form-control"
+            ngModel
+            [required]="requiredFields"
+          />
+          <div #streetAlert class="myAlert">Please neter a valid street</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="city">City<span>*</span></label>
+        <div class="vertical">
+          <input
+            (blur)="onBlur(city, cityAlert)"
+            type="text"
+            #city
+            name="city"
+            class="form-control"
+            ngModel
+            [required]="requiredFields"
+            list="city-datalist"
+            (input)="onCityInput(city, datalist)"
+          />
+          <datalist id="city-datalist" #datalist></datalist>
+          <div #cityAlert class="myAlert">Please enter a valid city</div>
+        </div>
+      </div>
+
+      <div id="third-row">
+        <label for="state">State<span>*</span></label>
         <input
-          (blur)="onBlur(street, streetAlert)"
-          type="text"
-          #street
-          name="street"
+          list="state-datalist"
+          id="state"
+          name="state"
+          (blur)="onBlur2(state)"
+          (input)="onInput(state)"
           class="form-control"
+          #state
           ngModel
           [required]="requiredFields"
+          placeholder="Select your state"
         />
-        <div #streetAlert class="myAlert">Please neter a valid street</div>
+
+        <datalist id="state-datalist">
+          <option value="Alabama"></option>
+          <option value="Alaska"></option>
+          <option value="Arizona"></option>
+          <option value="Arkansas"></option>
+          <option value="California"></option>
+          <option value="Colorado"></option>
+          <option value="Connecticut"></option>
+          <option value="Delaware"></option>
+          <option value="Florida"></option>
+          <option value="Georgia"></option>
+          <option value="Hawaii"></option>
+          <option value="Idaho"></option>
+          <option value="Illinois"></option>
+          <option value="Indiana"></option>
+          <option value="Iowa"></option>
+          <option value="Kansas"></option>
+          <option value="Kentucky"></option>
+          <option value="Louisiana"></option>
+          <option value="Maine"></option>
+          <option value="Maryland"></option>
+          <option value="Massachusetts"></option>
+          <option value="Michigan"></option>
+          <option value="Minnesota"></option>
+          <option value="Mississippi"></option>
+          <option value="Missouri"></option>
+          <option value="Montana"></option>
+          <option value="Nebraska"></option>
+          <option value="Nevada"></option>
+          <option value="New Hampshire"></option>
+          <option value="New Jersey"></option>
+          <option value="New Mexico"></option>
+          <option value="New York"></option>
+          <option value="North Carolina"></option>
+          <option value="North Dakota"></option>
+          <option value="Ohio"></option>
+          <option value="Oklahoma"></option>
+          <option value="Oregon"></option>
+          <option value="Pennsylvania"></option>
+          <option value="Rhode Island"></option>
+          <option value="South Carolina"></option>
+          <option value="South Dakota"></option>
+          <option value="Tennessee"></option>
+          <option value="Texas"></option>
+          <option value="Utah"></option>
+          <option value="Vermont"></option>
+          <option value="Virginia"></option>
+          <option value="Washington"></option>
+          <option value="West Virginia"></option>
+          <option value="Wisconsin"></option>
+          <option value="Wyoming"></option>
+        </datalist>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="city">City<span>*</span></label>
-      <div class="vertical">
+    <div class="horizontal">
+      <div>Autodetect Location<span>*</span></div>
+      <div id="hor1">
         <input
-          (blur)="onBlur(city, cityAlert)"
-          type="text"
-          #city
-          name="city"
-          class="form-control"
-          ngModel
-          [required]="requiredFields"
-          list="city-datalist"
-          (input)="onCityInput(city, datalist)"
+          type="checkbox"
+          id="checkbox"
+          #checkbox
+          (change)="onCheckboxChange()"
         />
-        <datalist id="city-datalist" #datalist></datalist>
-        <div #cityAlert class="myAlert">Please enter a valid city</div>
+        <div>Current Location</div>
       </div>
     </div>
-
-    <div id="third-row">
-      <label for="state">State<span>*</span></label>
-      <input
-        list="state-datalist"
-        id="state"
-        name="state"
-        (blur)="onBlur2(state)"
-        (input)="onInput(state)"
-        class="form-control"
-        #state
-        ngModel
-        [required]="requiredFields"
-        placeholder="Select your state"
-      />
-
-      <datalist id="state-datalist">
-        <option value="Alabama"></option>
-        <option value="Alaska"></option>
-        <option value="Arizona"></option>
-        <option value="Arkansas"></option>
-        <option value="California"></option>
-        <option value="Colorado"></option>
-        <option value="Connecticut"></option>
-        <option value="Delaware"></option>
-        <option value="Florida"></option>
-        <option value="Georgia"></option>
-        <option value="Hawaii"></option>
-        <option value="Idaho"></option>
-        <option value="Illinois"></option>
-        <option value="Indiana"></option>
-        <option value="Iowa"></option>
-        <option value="Kansas"></option>
-        <option value="Kentucky"></option>
-        <option value="Louisiana"></option>
-        <option value="Maine"></option>
-        <option value="Maryland"></option>
-        <option value="Massachusetts"></option>
-        <option value="Michigan"></option>
-        <option value="Minnesota"></option>
-        <option value="Mississippi"></option>
-        <option value="Missouri"></option>
-        <option value="Montana"></option>
-        <option value="Nebraska"></option>
-        <option value="Nevada"></option>
-        <option value="New Hampshire"></option>
-        <option value="New Jersey"></option>
-        <option value="New Mexico"></option>
-        <option value="New York"></option>
-        <option value="North Carolina"></option>
-        <option value="North Dakota"></option>
-        <option value="Ohio"></option>
-        <option value="Oklahoma"></option>
-        <option value="Oregon"></option>
-        <option value="Pennsylvania"></option>
-        <option value="Rhode Island"></option>
-        <option value="South Carolina"></option>
-        <option value="South Dakota"></option>
-        <option value="Tennessee"></option>
-        <option value="Texas"></option>
-        <option value="Utah"></option>
-        <option value="Vermont"></option>
-        <option value="Virginia"></option>
-        <option value="Washington"></option>
-        <option value="West Virginia"></option>
-        <option value="Wisconsin"></option>
-        <option value="Wyoming"></option>
-      </datalist>
+    <div class="horizontal">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        <img src="/assets/search.svg" /> <span id="search-text">Search</span>
+      </button>
+      <button
+        type="button"
+        class="btn"
+        id="clear"
+        (click)="onClear(form, checkbox)"
+      >
+        <img src="/assets/clear.svg" id="clear-img" /><span id="clear-text"
+          >Clear</span
+        >
+      </button>
     </div>
-  </div>
+  </form>
 
-  <div class="horizontal">
-    <div>Autodetect Location<span>*</span></div>
-    <div id="hor1">
-      <input
-        type="checkbox"
-        id="checkbox"
-        #checkbox
-        (change)="onCheckboxChange()"
-      />
-      <div>Current Location</div>
-    </div>
-  </div>
-  <div class="horizontal">
-    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-      Search
-    </button>
-    <button
-      type="button"
-      class="btn"
-      id="clear"
-      (click)="onClear(form, checkbox)"
+  <nav class="nav nav-pills nav-fill" id="nav">
+    <a
+      class="nav-link active"
+      #results
+      (click)="onClick(results, favorites, resultView, favTable)"
+      >Results</a
     >
-      Clear
-    </button>
+    <a
+      class="nav-link"
+      #favorites
+      (click)="onClick(favorites, results, favTable, resultView)"
+      >Favorites</a
+    >
+  </nav>
+
+  <div class="alert alert-warning" id="warning">Sorry. No records found.</div>
+  <div class="alert alert-danger" id="danger">
+    An error occured. Please try again later.
   </div>
-</form>
+
+  <div #resultView id="results">
+    <div>Forecast at {{ address }}</div>
+    <div>
+      <img src="/assets/favorite.png" id="favorite-icon" />
+      <a>Details</a>
+      <img src="/assets/right.svg" />
+    </div>
+    <div id="tabs">
+      <ul class="nav nav-tabs">
+        <li class="nav-items">
+          <a
+            class="nav-link"
+            [ngClass]="{ active: activeIndex === 1 }"
+            href="#"
+            (click)="setActiveTab(1)"
+            >Day view</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            [ngClass]="{ active: activeIndex === 2 }"
+            (click)="setActiveTab(2)"
+            >Daily Temp. Chart</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            [ngClass]="{ active: activeIndex === 3 }"
+            (click)="setActiveTab(3)"
+            >Meteogram</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <table class="view table" *ngIf="activeIndex === 1">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Temp. High(°F)</th>
+          <th>Temp. Low(°F)</th>
+          <th>Wind Speed(mph)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let day of nextWeek; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ day.startTime }}</td>
+          <td class="status">
+            <img [src]="weatherCodes[day.values.weatherCode][1]" />
+            {{ weatherCodes[day.values.weatherCode][0] }}
+          </td>
+          <td>{{ day.values.temperatureMax }}</td>
+          <td>{{ day.values.temperatureMin }}</td>
+          <td>{{ day.values.windSpeed }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="activeIndex === 2">Daily temp. chart</div>
+    <div *ngIf="activeIndex === 3">Meteogram</div>
+  </div>
+  <div #favTable id="fav-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">City</th>
+          <th scope="col">State</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>New York</td>
+          <td>New York</td>
+          <td><img src="/assets/trash-fill.svg" alt="delete" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
