@@ -12,6 +12,7 @@ import * as Highcharts from 'highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
 import e from 'express';
 import Windbarb from 'highcharts/modules/windbarb';
+import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
 
 HighchartsMore(Highcharts);
 Windbarb(Highcharts);
@@ -19,7 +20,7 @@ Windbarb(Highcharts);
 @Component({
   selector: 'app-search-form',
   standalone: true,
-  imports: [FormsModule, CommonModule, HighchartsChartModule],
+  imports: [FormsModule, CommonModule, HighchartsChartModule, GoogleMapsModule],
   templateUrl: './search-form.component.html',
   styleUrl: './search-form.component.css',
 })
@@ -1710,7 +1711,11 @@ export class SearchFormComponent {
   hourlyPressure: any[] = [];
   hourlyWindSpeed: any[] = [];
   activeIndex: number = 1;
-
+  center = { lat: 0, lng: 0 };
+  zoom: number = 20;
+  options: google.maps.MapOptions = {};
+  showMap: boolean = false;
+  markers = [{ position: { lat: 0, lng: 0 } }];
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions1: Highcharts.Options = {
     chart: {
@@ -1779,7 +1784,6 @@ export class SearchFormComponent {
     ],
   };
   chartOptions2: Highcharts.Options = {};
-
   @ViewChild('danger') danger!: ElementRef;
   @ViewChild('chart2') chart!: ElementRef;
 
@@ -1802,6 +1806,13 @@ export class SearchFormComponent {
           // console.log(data);
           lat = data.results[0].geometry.location.lat;
           lon = data.results[0].geometry.location.lng;
+          this.center.lat = Number(lat);
+          this.center.lng = Number(lon);
+          this.markers[0].position.lat = Number(lat);
+          this.markers[0].position.lng = Number(lon);
+          console.log(this.center);
+          console.log(this.markers[0].position);
+          this.showMap = true;
           this.address = data.results[0].formatted_address;
           console.log(lat, lon, this.address);
           this.getNextWeek(lat, lon);
@@ -1825,6 +1836,13 @@ export class SearchFormComponent {
           // console.log(data);
           lat = data.loc.split(',')[0];
           lon = data.loc.split(',')[1];
+          this.center.lat = Number(lat);
+          this.center.lng = Number(lon);
+          this.markers[0].position.lat = Number(lat);
+          this.markers[0].position.lng = Number(lon);
+          console.log(this.center);
+          console.log(this.markers[0].position);
+          this.showMap = true;
           this.address = data.city + ', ' + data.region;
           console.log(lat, lon, this.address);
           this.getNextWeek(lat, lon);
@@ -2189,5 +2207,15 @@ export class SearchFormComponent {
           ],
         };
       });
+  }
+
+  onDetail(element: HTMLDivElement) {
+    if (element.classList.contains('out')) {
+      element.classList.remove('out');
+      element.classList.add('in');
+    } else {
+      element.classList.remove('in');
+      element.classList.add('out');
+    }
   }
 }

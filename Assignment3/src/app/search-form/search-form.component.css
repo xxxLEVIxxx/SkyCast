@@ -104,12 +104,17 @@ a {
 
 #results {
   /* display: none; */
+
+  align-self: stretch;
+  margin-left: 5%;
+  margin-right: 5%;
+  transition: transform 0.5s ease; /* Smooth sliding transition */
+}
+#results-tabs {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   align-self: stretch;
-  margin-left: 5%;
-  margin-right: 5%;
 }
 
 #tabs {
@@ -175,6 +180,30 @@ a {
   height: 32px;
 }
 
+.in {
+  transform: translateX(-100vw);
+}
+.out {
+  transform: translateX(0vw);
+}
+
+#details {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.stretch {
+  align-self: stretch;
+}
+.panel {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.none {
+  display: none;
+}
 @media (max-width: 1024px) {
   form {
     margin: 16px 8px;
@@ -182,6 +211,10 @@ a {
     padding-bottom: 0;
   }
   #results {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  .stretch {
     margin-left: 8px;
     margin-right: 8px;
   }
