@@ -221,8 +221,21 @@
       </tbody>
     </table>
 
-    <div *ngIf="activeIndex === 2">Daily temp. chart</div>
-    <div *ngIf="activeIndex === 3">Meteogram</div>
+    <div *ngIf="activeIndex === 2" class="view">
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="chartOptions1"
+        style="width: 100%; height: 300px; display: block"
+      ></highcharts-chart>
+    </div>
+    <div *ngIf="activeIndex === 3" class="view">
+      Meteogram<highcharts-chart
+        #chart2
+        [Highcharts]="Highcharts"
+        [options]="chartOptions2"
+        style="width: 100%; height: 300px; display: block"
+      ></highcharts-chart>
+    </div>
   </div>
   <div #favTable id="fav-table">
     <table class="table">
