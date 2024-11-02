@@ -1,18 +1,12 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
-import e from 'express';
 import Windbarb from 'highcharts/modules/windbarb';
-import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 HighchartsMore(Highcharts);
 Windbarb(Highcharts);
@@ -1711,11 +1705,25 @@ export class SearchFormComponent {
   hourlyPressure: any[] = [];
   hourlyWindSpeed: any[] = [];
   activeIndex: number = 1;
+  favoritesArr: any[] = [];
+  city: string = '';
+  state: string = '';
+
   center = { lat: 0, lng: 0 };
-  zoom: number = 20;
+  zoom: number = 14.8;
   options: google.maps.MapOptions = {};
   showMap: boolean = false;
   markers = [{ position: { lat: 0, lng: 0 } }];
+
+  detailActiveIndex: number = 0;
+
+  isResultsCol: boolean = true;
+  showResults: boolean = false;
+  getWeeklyDone: boolean = false;
+  getHourlyDone: boolean = false;
+  showDanger: boolean = false;
+  isFavorite: boolean = false;
+
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions1: Highcharts.Options = {
     chart: {
@@ -1787,23 +1795,67 @@ export class SearchFormComponent {
   @ViewChild('danger') danger!: ElementRef;
   @ViewChild('chart2') chart!: ElementRef;
 
+  ngOnInit() {
+    this.getFavorites();
+  }
+
   setActiveTab(index: number): void {
     this.activeIndex = index;
+  }
+
+  toggleFavorite(): void {
+    this.isFavorite = !this.isFavorite;
+    if (this.isFavorite) {
+      console.log(this.city, this.state);
+
+      const url = 'http://localhost:3000/data/';
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          city: String(this.city),
+          state: String(this.state),
+        }),
+      })
+        .then((response) => {
+          if (response.status !== 200) {
+            this.showDanger = true;
+            this.danger.nativeElement.style.display = 'block';
+            return Promise.reject('Non-200 status code');
+          } else {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          this.getFavorites();
+        });
+    } else {
+    }
   }
 
   onSubmit(form: any) {
     if (this.requiredFields) {
       // console.log('Form Submitted:', form.value);
+      const street = form.value.street;
       const city = form.value.city;
       const state = form.value.state;
-      const country = form.value.country;
       let lat, lon;
-      const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${city},${state},${country}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
+      const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${street},${city},${state}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
 
       fetch(google_url)
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status !== 200) {
+            this.showDanger = true;
+            this.danger.nativeElement.style.display = 'block';
+            return Promise.reject('Non-200 status code');
+          } else {
+            return response.json();
+          }
+        })
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           lat = data.results[0].geometry.location.lat;
           lon = data.results[0].geometry.location.lng;
           this.center.lat = Number(lat);
@@ -1813,7 +1865,10 @@ export class SearchFormComponent {
           console.log(this.center);
           console.log(this.markers[0].position);
           this.showMap = true;
-          this.address = data.results[0].formatted_address;
+
+          this.city = data.results[0].address_components[3].short_name;
+          this.state = data.results[0].address_components[5].long_name;
+          this.address = this.city + ', ' + this.state;
           console.log(lat, lon, this.address);
           this.getNextWeek(lat, lon);
           this.getHourly(lat, lon);
@@ -1826,6 +1881,7 @@ export class SearchFormComponent {
       fetch(ip_url)
         .then((response) => {
           if (response.status !== 200) {
+            this.showDanger = true;
             this.danger.nativeElement.style.display = 'block';
             return Promise.reject('Non-200 status code');
           } else {
@@ -1833,18 +1889,21 @@ export class SearchFormComponent {
           }
         })
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           lat = data.loc.split(',')[0];
           lon = data.loc.split(',')[1];
           this.center.lat = Number(lat);
           this.center.lng = Number(lon);
           this.markers[0].position.lat = Number(lat);
           this.markers[0].position.lng = Number(lon);
-          console.log(this.center);
-          console.log(this.markers[0].position);
+          // console.log(this.center);
+          // console.log(this.markers[0].position);
           this.showMap = true;
           this.address = data.city + ', ' + data.region;
-          console.log(lat, lon, this.address);
+          // console.log(lat, lon, this.address);
+          this.city = data.city;
+          this.state = data.region;
+          // console.log(this.city, this.state);
           this.getNextWeek(lat, lon);
           this.getHourly(lat, lon);
         });
@@ -1892,7 +1951,14 @@ export class SearchFormComponent {
     )
       .then((response) => {
         // console.log(response);
-        return response.text();
+
+        if (response.status !== 200) {
+          this.showDanger = true;
+          this.danger.nativeElement.style.display = 'block';
+          return Promise.reject('Non-200 status code');
+        } else {
+          return response.text();
+        }
       })
       .then((data) => {
         const jsonData = JSON.parse(data);
@@ -1918,27 +1984,38 @@ export class SearchFormComponent {
       const event = new Event('change');
       checkbox.dispatchEvent(event);
     }
+    this.showMap = false;
+    this.showResults = false;
+    this.getWeeklyDone = false;
+    this.getHourlyDone = false;
+    this.tempRange = [];
+    this.hourlyTemp = [];
+    this.hourlyHumidity = [];
+    this.hourlyPressure = [];
+    this.hourlyWindSpeed = [];
+    this.chartOptions2 = {};
+    this.address = '';
+    this.showDanger = false;
+    this.activeIndex = 1;
+    this.detailActiveIndex = 0;
   }
-
-  onClick(
-    active: HTMLAnchorElement,
-    inactive: HTMLAnchorElement,
-    visible: HTMLDivElement,
-    hidden: HTMLDivElement
-  ) {
-    if (!active.classList.contains('active')) {
-      active.classList.add('active');
-      inactive.classList.remove('active');
-      visible.style.display = 'flex';
-      hidden.style.display = 'none';
-    }
+  toggleResultsCol(bool: boolean) {
+    this.isResultsCol = bool;
   }
 
   getNextWeek(lat: number, lon: number) {
     const weather_url =
       'http://localhost:3000/nextweek?lat=' + lat + '&lon=' + lon;
     fetch(weather_url)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200) {
+          this.showDanger = true;
+          this.danger.nativeElement.style.display = 'block';
+          return Promise.reject('Non-200 status code');
+        }
+
+        return response.json();
+      })
       .then((data) => {
         this.nextWeek = data;
         console.log(this.nextWeek);
@@ -1950,6 +2027,10 @@ export class SearchFormComponent {
           ]);
         }
         console.log(this.tempRange);
+        this.getWeeklyDone = true;
+        if (this.getWeeklyDone && this.getHourlyDone) {
+          this.showResults = true;
+        }
       });
   }
 
@@ -1959,7 +2040,9 @@ export class SearchFormComponent {
     fetch(weather_url)
       .then((response) => {
         if (response.status !== 200) {
+          this.showDanger = true;
           this.danger.nativeElement.style.display = 'block';
+
           return Promise.reject('Non-200 status code');
         } else {
           return response.json();
@@ -1967,22 +2050,22 @@ export class SearchFormComponent {
       })
       .then((data) => {
         this.hourly = data;
-        console.log(this.hourly);
+        // console.log(this.hourly);
         this.hourlyTemp = this.hourly.map((hour) => [
           new Date(hour.startTime).getTime(),
           hour.values.temperature,
         ]);
-        console.log(this.hourlyTemp);
+        // console.log(this.hourlyTemp);
         this.hourlyHumidity = this.hourly.map((hour) => [
           new Date(hour.startTime).getTime(),
           Math.round(hour.values.humidity),
         ]);
-        console.log(this.hourlyHumidity);
+        // console.log(this.hourlyHumidity);
         this.hourlyPressure = this.hourly.map((hour) => [
           new Date(hour.startTime).getTime(),
           hour.values.pressureSeaLevel,
         ]);
-        console.log(this.hourlyPressure);
+        // console.log(this.hourlyPressure);
         this.hourlyWindSpeed = this.hourly
           .map((hour, index) => {
             if (index % 2 === 0) {
@@ -1995,7 +2078,7 @@ export class SearchFormComponent {
             return null;
           })
           .filter((hour) => hour !== null);
-        console.log(this.hourlyWindSpeed);
+        // console.log(this.hourlyWindSpeed);
         this.chartOptions2 = {
           chart: {
             zooming: {
@@ -2206,6 +2289,11 @@ export class SearchFormComponent {
             },
           ],
         };
+
+        this.getHourlyDone = true;
+        if (this.getWeeklyDone && this.getHourlyDone) {
+          this.showResults = true;
+        }
       });
   }
 
@@ -2217,5 +2305,50 @@ export class SearchFormComponent {
       element.classList.remove('in');
       element.classList.add('out');
     }
+  }
+
+  setDayIndex(index: number) {
+    this.detailActiveIndex = index;
+  }
+
+  getFavorites() {
+    const favorite_url = 'http://localhost:3000/data';
+    fetch(favorite_url)
+      .then((response) => {
+        if (response.status !== 200) {
+          this.showDanger = true;
+          this.danger.nativeElement.style.display = 'block';
+          return Promise.reject('Non-200 status code');
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        this.favoritesArr = data;
+      });
+  }
+  deleteFavorite(index: number) {
+    const delete_url =
+      'http://localhost:3000/data/' + this.favoritesArr[index]._id;
+    fetch(delete_url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.status !== 200) {
+          this.showDanger = true;
+          this.danger.nativeElement.style.display = 'block';
+          return Promise.reject('Non-200 status code');
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        this.getFavorites();
+      });
   }
 }

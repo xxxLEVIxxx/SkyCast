@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -58,6 +59,58 @@ app.get("/hourly", async (req, res) => {
   } catch {
     console.error("Error in fetching data from Tomorrow API");
     res.status(500).send("Internal Server Error");
+  }
+});
+
+const uri =
+  "mongodb+srv://chenghaox123:Xch892623089@cluster0.ruygh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("Error in connecting to MongoDB", error));
+
+const dataSchema = new mongoose.Schema({
+  city: String,
+  state: String,
+});
+
+const Favorite = mongoose.model("Favorite", dataSchema);
+
+app.get("/data", async (req, res) => {
+  try {
+    const newData = await Favorite.find();
+    res.json(newData);
+  } catch {
+    console.error("Error in fetching data from MongoDB");
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/data", async (req, res) => {
+  try {
+    const newData = new Favorite({
+      city: req.body.city,
+      state: req.body.state,
+    });
+    await newData.save();
+    res.send(newData);
+  } catch (error) {
+    console.error("Error in saving data to MongoDB", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.delete("/data/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const deletedData = await Favorite.findByIdAndDelete(req.params.id);
+    if (!deletedData) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+    res.json({ message: "Data deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting data" });
   }
 });
 

@@ -140,106 +140,225 @@
     <a
       class="nav-link active"
       #results
-      (click)="onClick(results, favorites, resultView, favTable)"
+      [ngClass]="{ active: isResultsCol }"
+      (click)="toggleResultsCol(true)"
       >Results</a
     >
     <a
       class="nav-link"
       #favorites
-      (click)="onClick(favorites, results, favTable, resultView)"
+      [ngClass]="{ active: !isResultsCol }"
+      (click)="toggleResultsCol(false)"
       >Favorites</a
     >
   </nav>
 
-  <div class="alert alert-warning" id="warning">Sorry. No records found.</div>
-  <div class="alert alert-danger" id="danger">
+  <div
+    class="alert alert-warning"
+    id="warning"
+    #warning
+    *ngIf="favoritesArr.length === 0 && !isResultsCol"
+  >
+    Sorry. No records found.
+  </div>
+  <div class="alert alert-danger" id="danger" #danger *ngIf="showDanger">
     An error occured. Please try again later.
   </div>
+  <div id="hor2" #resultPanel *ngIf="showResults && isResultsCol">
+    <div #resultView id="results" class="stretch">
+      <div id="results-tabs">
+        <div id="heading2">Forecast at {{ address }}</div>
+        <div>
+          <img
+            [src]="
+              isFavorite
+                ? '/assets/favorite-active.png'
+                : '/assets/favorite.png'
+            "
+            id="favorite-icon"
+            (click)="toggleFavorite()"
+          />
+          <a #details (click)="onDetail(resultPanel)">Details</a>
+          <img src="/assets/right.svg" />
+        </div>
+        <div id="tabs">
+          <ul class="nav nav-tabs">
+            <li class="nav-items">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeIndex === 1 }"
+                href="#"
+                (click)="setActiveTab(1)"
+                >Day view</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#"
+                [ngClass]="{ active: activeIndex === 2 }"
+                (click)="setActiveTab(2)"
+                >Daily Temp. Chart</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#"
+                [ngClass]="{ active: activeIndex === 3 }"
+                (click)="setActiveTab(3)"
+                >Meteogram</a
+              >
+            </li>
+          </ul>
+        </div>
 
-  <div #resultView id="results">
-    <div id="results-tabs">
-      <div>Forecast at {{ address }}</div>
-      <div>
-        <img src="/assets/favorite.png" id="favorite-icon" />
-        <a #details (click)="onDetail(resultView)">Details</a>
-        <img src="/assets/right.svg" />
-      </div>
-      <div id="tabs">
-        <ul class="nav nav-tabs">
-          <li class="nav-items">
-            <a
-              class="nav-link"
-              [ngClass]="{ active: activeIndex === 1 }"
-              href="#"
-              (click)="setActiveTab(1)"
-              >Day view</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              [ngClass]="{ active: activeIndex === 2 }"
-              (click)="setActiveTab(2)"
-              >Daily Temp. Chart</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              [ngClass]="{ active: activeIndex === 3 }"
-              (click)="setActiveTab(3)"
-              >Meteogram</a
-            >
-          </li>
-        </ul>
-      </div>
+        <table class="view table" *ngIf="activeIndex === 1">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Temp. High(°F)</th>
+              <th>Temp. Low(°F)</th>
+              <th>Wind Speed(mph)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let day of nextWeek; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <a
+                  class="a"
+                  (click)="setDayIndex(i)"
+                  (click)="onDetail(resultPanel)"
+                  >{{ day.startTime }}</a
+                >
+              </td>
+              <td class="status">
+                <img [src]="weatherCodes[day.values.weatherCode][1]" />
+                {{ weatherCodes[day.values.weatherCode][0] }}
+              </td>
+              <td>{{ day.values.temperatureMax }}</td>
+              <td>{{ day.values.temperatureMin }}</td>
+              <td>{{ day.values.windSpeed }}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <table class="view table" *ngIf="activeIndex === 1">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Temp. High(°F)</th>
-            <th>Temp. Low(°F)</th>
-            <th>Wind Speed(mph)</th>
-          </tr>
-        </thead>
+        <div *ngIf="activeIndex === 2" class="view">
+          <highcharts-chart
+            [Highcharts]="Highcharts"
+            [options]="chartOptions1"
+            style="width: 100%; height: 300px; display: block"
+          ></highcharts-chart>
+        </div>
+        <div *ngIf="activeIndex === 3" class="view">
+          <highcharts-chart
+            #chart2
+            [Highcharts]="Highcharts"
+            [options]="chartOptions2"
+            style="width: 100%; height: 300px; display: block"
+          ></highcharts-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="stretch panel">
+      <div class="horizontal" id="details">
+        <div id="prev" (click)="onDetail(resultPanel)">
+          <img src="/assets/prev.svg" alt="prev" id="prev-img" />List
+        </div>
+        <div>{{ nextWeek[detailActiveIndex].startTime }}</div>
+        <a
+          href="https://twitter.com/intent/tweet?text=The temperature in {{
+            address
+          }} on {{ nextWeek[detailActiveIndex].startTime }} is {{
+            nextWeek[detailActiveIndex].values.temperatureApparent
+          }}°F and the conditions are {{
+            weatherCodes[nextWeek[detailActiveIndex].values.weatherCode][0]
+          }}&hashtags=CSCI571WeatherForecast"
+          id="twitter"
+          ><img src="/assets/x.png" id="twitter-img"
+        /></a>
+      </div>
+      <table class="table table-striped">
         <tbody>
-          <tr *ngFor="let day of nextWeek; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ day.startTime }}</td>
-            <td class="status">
-              <img [src]="weatherCodes[day.values.weatherCode][1]" />
-              {{ weatherCodes[day.values.weatherCode][0] }}
+          <tr>
+            <th>Status</th>
+            <td>
+              {{
+                weatherCodes[nextWeek[detailActiveIndex].values.weatherCode][0]
+              }}
             </td>
-            <td>{{ day.values.temperatureMax }}</td>
-            <td>{{ day.values.temperatureMin }}</td>
-            <td>{{ day.values.windSpeed }}</td>
+          </tr>
+          <tr>
+            <th>Max Temperature</th>
+            <td>{{ nextWeek[detailActiveIndex].values.temperatureMax }} °F</td>
+          </tr>
+          <tr>
+            <th>Min Temperature</th>
+            <td>{{ nextWeek[detailActiveIndex].values.temperatureMin }} °F</td>
+          </tr>
+          <tr>
+            <th>Apparent Temperature</th>
+            <td>
+              {{ nextWeek[detailActiveIndex].values.temperatureApparent }} °F
+            </td>
+          </tr>
+          <tr>
+            <th>Sun Rise Time</th>
+            <td>{{ nextWeek[detailActiveIndex].values.sunriseTime }}</td>
+          </tr>
+
+          <tr>
+            <th>Sun Set Time</th>
+            <td>{{ nextWeek[detailActiveIndex].values.sunsetTime }}</td>
+          </tr>
+          <tr>
+            <th>Humidity</th>
+            <td>{{ nextWeek[detailActiveIndex].values.humidity }}%</td>
+          </tr>
+
+          <tr>
+            <th>Wind Speed</th>
+            <td>{{ nextWeek[detailActiveIndex].values.windSpeed }}mph</td>
+          </tr>
+
+          <tr>
+            <th>Visibility</th>
+            <td>{{ nextWeek[detailActiveIndex].values.visibility }}mi</td>
+          </tr>
+
+          <tr>
+            <th>Cloud Cover</th>
+            <td>{{ nextWeek[detailActiveIndex].values.cloudCover }}%</td>
           </tr>
         </tbody>
       </table>
-
-      <div *ngIf="activeIndex === 2" class="view">
-        <highcharts-chart
-          [Highcharts]="Highcharts"
-          [options]="chartOptions1"
-          style="width: 100%; height: 300px; display: block"
-        ></highcharts-chart>
-      </div>
-      <div *ngIf="activeIndex === 3" class="view">
-        Meteogram<highcharts-chart
-          #chart2
-          [Highcharts]="Highcharts"
-          [options]="chartOptions2"
-          style="width: 100%; height: 300px; display: block"
-        ></highcharts-chart>
-      </div>
+      <google-map
+        [height]="'400px'"
+        [width]="'100%'"
+        [center]="center"
+        [zoom]="zoom"
+        [options]="options"
+        id="map"
+        #map
+        *ngIf="showMap"
+      >
+        <map-marker
+          *ngFor="let marker of markers"
+          [position]="marker.position"
+        ></map-marker>
+      </google-map>
     </div>
   </div>
-  <div #favTable id="fav-table">
+
+  <div
+    #favTable
+    id="fav-table"
+    *ngIf="!isResultsCol && favoritesArr.length != 0"
+  >
     <table class="table">
       <thead>
         <tr>
@@ -250,79 +369,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>New York</td>
-          <td>New York</td>
-          <td><img src="/assets/trash-fill.svg" alt="delete" /></td>
+        <tr *ngFor="let place of favoritesArr; let i = index">
+          <td scope="row">{{ i + 1 }}</td>
+          <td>
+            <a class="a">{{ place.city }}</a>
+          </td>
+          <td>
+            <a class="a">{{ place.state }}</a>
+          </td>
+          <td>
+            <img
+              src="/assets/trash-fill.svg"
+              alt="delete"
+              class="clickable"
+              (click)="deleteFavorite(i)"
+            />
+          </td>
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="stretch panel">
-    <div class="horizontal" id="details">
-      <img alt="prev" />
-      <div>Tuesday, Oct. 15, 2024</div>
-      <img alt="Twitter" />
-    </div>
-    <table class="table table-striped">
-      <tbody>
-        <tr>
-          <th>Status</th>
-          <td></td>
-        </tr>
-        <tr>
-          <th>Max Temperature</th>
-          <td></td>
-        </tr>
-        <tr>
-          <th>Min Temperature</th>
-          <td></td>
-        </tr>
-        <tr>
-          <th>Sun Rise Time</th>
-          <td></td>
-        </tr>
-        <tr>
-          <th>Sun Set Time</th>
-          <td></td>
-        </tr>
-        <tr>
-          <th>Humidity</th>
-          <td></td>
-        </tr>
-
-        <tr>
-          <th>Wind Speed</th>
-          <td></td>
-        </tr>
-
-        <tr>
-          <th>Visibility</th>
-          <td></td>
-        </tr>
-
-        <tr>
-          <th>Cloud Cover</th>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <google-map
-      [height]="'400px'"
-      [width]="'100%'"
-      [center]="center"
-      [zoom]="zoom"
-      [options]="options"
-      id="map"
-      #map
-      *ngIf="showMap"
-    >
-      <map-marker
-        *ngFor="let marker of markers"
-        [position]="marker.position"
-      ></map-marker>
-    </google-map>
   </div>
 </div>

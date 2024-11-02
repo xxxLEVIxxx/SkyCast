@@ -96,18 +96,14 @@ a {
 }
 
 #fav-table {
-  display: none;
+  display: flex;
   align-self: stretch;
   margin-left: 5%;
   margin-right: 5%;
 }
 
-#results {
+#hor2 {
   /* display: none; */
-
-  align-self: stretch;
-  margin-left: 5%;
-  margin-right: 5%;
   transition: transform 0.5s ease; /* Smooth sliding transition */
 }
 #results-tabs {
@@ -132,13 +128,13 @@ a {
 }
 
 #warning {
-  display: none;
+  display: flex;
   align-self: stretch;
   margin-left: 5%;
   margin-right: 5%;
 }
 #danger {
-  display: none;
+  display: flex;
   align-self: stretch;
   margin-left: 5%;
   margin-right: 5%;
@@ -192,18 +188,67 @@ a {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
 }
 .stretch {
-  align-self: stretch;
+  width: 100vw;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 .panel {
-  margin-left: 5%;
-  margin-right: 5%;
+  /* padding-left: 5%;
+  padding-right: 5%; */
 }
-
+.clickable {
+  cursor: pointer;
+}
 .none {
   display: none;
 }
+
+#prev {
+  border: 1px solid #989898;
+  border-radius: 4px;
+  height: 32px;
+  margin-bottom: 5px;
+  width: 70px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+}
+#prev-img {
+  width: 16px;
+  height: 16px;
+}
+
+#twitter {
+  border: 1px solid #989898;
+  border-radius: 4px;
+  padding-left: 6px;
+  padding-right: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+}
+#twitter-img {
+  width: 32px;
+  height: 32px;
+}
+#heading2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+#hor2 {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+}
+
 @media (max-width: 1024px) {
   form {
     margin: 16px 8px;
@@ -211,12 +256,10 @@ a {
     padding-bottom: 0;
   }
   #results {
-    margin-left: 8px;
-    margin-right: 8px;
   }
   .stretch {
-    margin-left: 8px;
-    margin-right: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   .form-group {
