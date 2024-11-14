@@ -1,3 +1,7 @@
 runtime: nodejs20
 
 entrypoint: node index.js
+
+handlers:
+  - url: /static
+    static_dir: dist/assignment3-copy/browser # Adjust to match your folder structure

@@ -1798,6 +1798,7 @@ export class AppComponent implements OnInit {
   isFavorite: boolean = false;
 
   testMap: boolean = false;
+  isSearching: boolean = false;
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions1: Highcharts.Options = {};
@@ -1875,6 +1876,8 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit(input: HTMLInputElement) {
+    this.isSearching = true;
+
     if (!input.checked) {
       // console.log('Form Submitted:', form.value);
       const street = this.myForm.get('street')!.value;
@@ -2108,9 +2111,22 @@ export class AppComponent implements OnInit {
     this.detailActiveIndex = 0;
     this.testMap = false;
     this.toggleResultsCol(true);
+    this.isSearching = false;
   }
   toggleResultsCol(bool: boolean) {
+    if (bool) {
+      this.testMap = false;
+    }
+
     this.isResultsCol = bool;
+    if (bool) {
+      setTimeout(() => {
+        this.onDetail(this.resultPanel.nativeElement);
+      }, 500);
+      setTimeout(() => {
+        this.testMap = true;
+      }, 1000);
+    }
   }
 
   getNextWeek(lat: number, lon: number) {
@@ -2210,6 +2226,7 @@ export class AppComponent implements OnInit {
         this.getWeeklyDone = true;
         if (this.getWeeklyDone && this.getHourlyDone) {
           this.showResults = true;
+          this.isSearching = false;
         }
       });
   }
@@ -2480,6 +2497,7 @@ export class AppComponent implements OnInit {
         this.getHourlyDone = true;
         if (this.getWeeklyDone && this.getHourlyDone) {
           this.showResults = true;
+          this.isSearching = false;
         }
       });
   }
@@ -2611,6 +2629,8 @@ export class AppComponent implements OnInit {
     this.activeIndex = 1;
     this.detailActiveIndex = 0;
     this.testMap = false;
+    this.isSearching = true;
+
     let lat, lon;
     const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${this.city},${this.state}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
 
@@ -2654,9 +2674,9 @@ export class AppComponent implements OnInit {
           console.log(lat, lon, this.address);
           this.getNextWeek(lat, lon);
           this.getHourly(lat, lon);
+          this.isResultsCol = true;
           this.showElement();
           this.getFavorites();
-          this.toggleResultsCol(true);
         }
       });
   }

@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, "dist/assignment3-copy/browser/")));
 // All routes will be handled by index.html
 app.get("/", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "dist/assignment3-copy/browser/index.html")
+    path.join(__dirname, "dist/assignment3-copy/browser", "index.html")
   );
 });
 
