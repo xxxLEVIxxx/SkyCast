@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -18,7 +18,7 @@ Windbarb(Highcharts);
   templateUrl: './search-form.component.html',
   styleUrl: './search-form.component.css',
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnInit {
   requiredFields = true;
   nextWeek: any[] = [];
   tempRange: any[] = [];
@@ -1733,7 +1733,7 @@ export class SearchFormComponent {
       },
     },
     title: {
-      text: 'Hourly Weather (For Next 5 Days)',
+      text: 'Temperature Range(Min, Max)',
     },
     tooltip: {
       shared: true,
@@ -1832,6 +1832,7 @@ export class SearchFormComponent {
           this.getFavorites();
         });
     } else {
+      this.deleteFavorite(this.favoritesArr.length - 1);
     }
   }
 
@@ -1872,6 +1873,7 @@ export class SearchFormComponent {
           console.log(lat, lon, this.address);
           this.getNextWeek(lat, lon);
           this.getHourly(lat, lon);
+          this.showElement();
         });
       //testcode
     } else {
@@ -1906,13 +1908,14 @@ export class SearchFormComponent {
           // console.log(this.city, this.state);
           this.getNextWeek(lat, lon);
           this.getHourly(lat, lon);
+          this.showElement();
         });
     }
   }
 
   onBlur(input: HTMLInputElement, div: HTMLElement) {
     if (input.value === '') {
-      input.style.border = '1px solid red';
+      input.style.border = '1px solid #d00011';
       div.style.display = 'block';
     } else {
       input.style.border = '1px solid #dee2e6';
@@ -1922,7 +1925,7 @@ export class SearchFormComponent {
 
   onBlur2(input: HTMLInputElement) {
     if (input.value === '') {
-      input.style.border = '1px solid red';
+      input.style.border = '1px solid #d00011';
     } else {
       input.style.border = '1px solid #dee2e6';
     }
@@ -1998,6 +2001,7 @@ export class SearchFormComponent {
     this.showDanger = false;
     this.activeIndex = 1;
     this.detailActiveIndex = 0;
+    this.requiredFields = true;
   }
   toggleResultsCol(bool: boolean) {
     this.isResultsCol = bool;
@@ -2083,6 +2087,10 @@ export class SearchFormComponent {
           chart: {
             zooming: {
               type: 'x',
+            },
+            scrollablePlotArea: {
+              minWidth: 768, // Set minimum width to make it scrollable on smaller screens
+              scrollPositionX: 0, // Start scrolling position
             },
           },
           title: {
@@ -2350,5 +2358,15 @@ export class SearchFormComponent {
         console.log(data);
         this.getFavorites();
       });
+  }
+
+  isVisible = false;
+
+  showElement() {
+    this.isVisible = true;
+
+    setTimeout(() => {
+      this.isVisible = false;
+    }, 500); // 0.5 seconds
   }
 }

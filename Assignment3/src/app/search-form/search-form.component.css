@@ -1,19 +1,26 @@
-span {
+label > span {
+  color: red;
+}
+#red {
   color: red;
 }
 
+button > span {
+  font-size: 18px;
+  font-weight: 400;
+}
 .form-group {
   display: grid;
-  grid-template-columns: 25% 75%;
+  grid-template-columns: 23% 77%;
   align-items: center;
   margin-bottom: 0px;
 }
 
 form {
   align-self: stretch;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 16px;
+  margin-left: 8.5%;
+  margin-right: 8.5%;
+  margin-top: 8px;
   margin-bottom: 0;
   display: flex;
   flex-direction: column;
@@ -21,14 +28,19 @@ form {
   background-color: #f2f2f2;
   box-sizing: border-box;
   padding-bottom: 0;
-  padding-top: 14px;
+  padding-top: 8px;
 }
 
 #heading1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 26px;
+  margin-bottom: 14px;
+  font-style: bold;
 }
-
+#heading3 {
+  font-size: 20px;
+  font-weight: 600;
+  align-self: flex-start;
+}
 #hr {
   visibility: visible;
 }
@@ -36,7 +48,7 @@ form {
 .horizontal {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
 }
 #hor1 {
@@ -48,12 +60,28 @@ form {
 
 #clear {
   background-color: #f8f8f8;
-  border: 1.5px solid #989898;
+  border: 1.5px solid #7e7d7d;
   color: #777777;
+}
+#clear-text {
+  color: #777777;
+  margin-left: -2px;
+}
+
+#clear:hover {
+  background-color: #434340;
+  color: white;
+}
+
+#clear:hover #clear-text {
+  color: white;
 }
 .myAlert {
   display: none;
-  color: red;
+  color: #d00011;
+  font-size: 14px;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 .vertical {
@@ -65,23 +93,46 @@ form {
 
 .groups {
   width: 90%;
-  gap: 0px;
   padding-bottom: 20px;
   margin-left: 2%;
   margin-right: 2%;
   margin-bottom: 14px;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 8.5%;
+  padding-right: 8.5%;
   border-bottom: 1px solid #989898;
 }
 #third-row {
   display: grid;
-  grid-template-columns: 25% 30%;
+  grid-template-columns: 23% 31%;
   align-items: center;
   margin-bottom: 0px;
 }
+#checkbox {
+  width: 14px;
+  height: 14px;
+  appearance: none;
+  border-radius: 2px;
+  border: 2px solid #8f8f8f;
+  background-color: white;
+}
+#checkbox:focus {
+  box-shadow: none;
+}
+
+#checkbox:hover {
+  border-color: #51514d;
+}
 #checkbox:checked {
+  background-image: url("/assets/check-lg.svg");
+  background-position: center;
+  background-color: #fcc100;
+  opacity: 1;
+  border-color: #fcc100;
+}
+
+#checkbox:checked:hover {
   background-color: #d9a700;
+  border-color: #d9a700;
 }
 
 #nav {
@@ -115,11 +166,15 @@ a {
 
 #tabs {
   align-self: stretch;
+  margin-top: 20px;
 }
 .nav {
   justify-content: flex-end;
 }
 
+.nav-tabs:last-child {
+  margin-right: 5px;
+}
 #page {
   width: 100%;
   display: flex;
@@ -130,14 +185,14 @@ a {
 #warning {
   display: flex;
   align-self: stretch;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 8.5%;
+  margin-right: 8.5%;
 }
 #danger {
   display: flex;
   align-self: stretch;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 8.5%;
+  margin-right: 8.5%;
 }
 
 .table {
@@ -148,17 +203,23 @@ a {
   color: white;
   margin-left: -5px;
 }
-#clear-text {
-  color: #777777;
-  margin-left: -2px;
-}
 
 #clear-img {
   transform: scaleX(-1);
 }
 
 #favorite-icon {
-  width: 48px;
+  width: 40px;
+  background-color: #f9f9f9;
+  border: 1px solid #616161;
+  padding: 4px 8px 4px 8px;
+  border-radius: 4px;
+  margin-right: -10px;
+}
+
+#favorite-icon:hover {
+  background-color: #434340;
+  color: white;
 }
 
 .view {
@@ -171,9 +232,16 @@ a {
 
   align-items: center;
 }
+
 .status > img {
   width: 32px;
   height: 32px;
+}
+.tr > * {
+  border: none;
+}
+.tr {
+  border-bottom: 1px solid #e0e2e3;
 }
 
 .in {
@@ -218,7 +286,13 @@ a {
   align-items: center;
   justify-content: center;
   background-color: #f8f8f8;
+  color: #6d747c;
 }
+#prev:hover {
+  background-color: #434340;
+  color: white;
+}
+
 #prev-img {
   width: 16px;
   height: 16px;
@@ -227,20 +301,21 @@ a {
 #twitter {
   border: 1px solid #989898;
   border-radius: 4px;
-  padding-left: 6px;
-  padding-right: 3px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-bottom: 4px;
+  padding: 4px 6px 3px 6px;
+}
+#twitter:hover {
+  background-color: #434340;
+  color: white;
 }
 #twitter-img {
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 20px;
 }
 #heading2 {
   font-size: 24px;
   margin-bottom: 20px;
   align-self: center;
+  font-weight: bold;
 }
 
 #hor2 {
@@ -249,13 +324,40 @@ a {
   align-self: flex-start;
 }
 
+#map-panel {
+  padding-bottom: 10px;
+}
+
+#table-body > tr {
+  display: grid;
+  grid-template-columns: 35% 65%;
+}
+
+#progress {
+  width: 70vw;
+}
+#details-text {
+  color: #545454;
+  text-decoration: underline;
+}
+.tabs {
+  font-size: 14px;
+}
+
+#matAutocomplete {
+  display: block;
+}
+
 @media (max-width: 1024px) {
   form {
     margin: 16px 8px;
     margin-bottom: 0px;
     padding-bottom: 0;
   }
-  #results {
+  #progress {
+    width: calc(100vw - 16px);
+    margin-left: 8px;
+    margin-right: 8px;
   }
   .stretch {
     padding-left: 8px;
@@ -296,5 +398,31 @@ a {
   #danger {
     margin-left: 8px;
     margin-right: 8px;
+  }
+  #map-panel {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  #details {
+    height: 54px;
+    align-items: center;
+  }
+  #prev {
+    padding: 12px 8px 12px 8px;
+  }
+  #heading3 {
+    font-size: 24px;
+  }
+  #twitter {
+    padding: 6px 8px 5px 8px;
+  }
+  #table-body > tr {
+    grid-template-columns: 30% 70%;
+  }
+  #table-body > tr > th {
+    font-size: 18px;
+  }
+  #table-body > tr > td {
+    padding-left: 20px;
   }
 }

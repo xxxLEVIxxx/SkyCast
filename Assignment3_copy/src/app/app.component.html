@@ -1,0 +1,401 @@
+<main class="main">
+  <div id="page">
+    <form #form [formGroup]="myForm" (ngSubmit)="onSubmit(checkbox)" id="form">
+      <div id="heading1">Weather Search⛅</div>
+      <div class="groups">
+        <div class="form-group">
+          <label for="street">Street<span>*</span></label>
+          <div class="vertical">
+            <input
+              (blur)="onBlur(street, streetAlert)"
+              type="text"
+              #street
+              name="street"
+              class="form-control"
+              formControlName="street"
+            />
+            <div #streetAlert class="myAlert">Please enter a valid street</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City<span>*</span></label>
+          <div class="vertical">
+            <!-- <input
+              (blur)="onBlur(city, cityAlert)"
+              type="text"
+              #city
+              name="city"
+              class="form-control"
+              ngModel
+              [required]="requiredFields"
+              list="city-datalist"
+            /> -->
+            <input
+              type="text"
+              class="form-control"
+              matInput
+              formControlName="city"
+              [matAutocomplete]="auto"
+              #city
+              name="city"
+              (blur)="onBlur(city, cityAlert)"
+              (input)="onCityInput(city)"
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="onOptionSelected($event)"
+            >
+              <mat-option
+                *ngFor="let option of filteredOptions | async"
+                [value]="option"
+                >{{ option }}</mat-option
+              >
+            </mat-autocomplete>
+            <div #cityAlert class="myAlert">Please enter a valid city</div>
+          </div>
+        </div>
+
+        <div id="third-row">
+          <label for="state">State<span>*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            matInput
+            id="state"
+            #state
+            name="state"
+            (blur)="onBlur2(state)"
+            (input)="onInput(state)"
+            [matAutocomplete]="auto2"
+            formControlName="state"
+            placeholder="Select your state"
+          />
+          <mat-autocomplete #auto2="matAutocomplete">
+            <mat-option *ngFor="let state of sortedStates" [value]="state">{{
+              state
+            }}</mat-option>
+          </mat-autocomplete>
+        </div>
+      </div>
+      <div id="line"></div>
+      <div class="horizontal">
+        <div>Autodetect Location<span id="red">*</span></div>
+        <div id="hor1">
+          <input
+            type="checkbox"
+            id="checkbox"
+            #checkbox
+            (change)="onCheckboxChange(checkbox)"
+          />
+          <div>Current Location</div>
+        </div>
+      </div>
+      <div class="horizontal">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="myForm.invalid"
+          id="button1"
+        >
+          <img src="/assets/search.svg" /> <span id="search-text">Search</span>
+        </button>
+        <button
+          type="button"
+          class="btn"
+          id="clear"
+          (click)="onClear(checkbox)"
+        >
+          <img src="/assets/clear.svg" id="clear-img" /><span id="clear-text"
+            >Clear</span
+          >
+        </button>
+      </div>
+    </form>
+
+    <nav class="nav nav-pills nav-fill" id="nav">
+      <a
+        class="nav-link active"
+        #results
+        [ngClass]="{ active: isResultsCol }"
+        (click)="toggleResultsCol(true)"
+        id="link1"
+        >Results</a
+      >
+      <a
+        class="nav-link"
+        id="link2"
+        #favorites
+        [ngClass]="{ active: !isResultsCol }"
+        (click)="toggleResultsCol(false)"
+        >Favorites</a
+      >
+    </nav>
+
+    <div
+      class="alert alert-warning"
+      id="warning"
+      #warning
+      *ngIf="favoritesArr.length === 0 && !isResultsCol"
+    >
+      Sorry. No records found.
+    </div>
+    <div class="alert alert-danger" id="danger" #danger *ngIf="showDanger">
+      An error occured. Please try again later.
+    </div>
+    <div
+      class="progress"
+      role="progressbar"
+      *ngIf="isVisible"
+      [@fadeInOut]="isVisible ? 'visible' : 'hidden'"
+      aria-label="Info striped example"
+      aria-valuenow="50"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      id="progress"
+    >
+      <div class="progress-bar progress-bar-striped" style="width: 50%"></div>
+    </div>
+    <div id="hor2" #resultPanel class="in" *ngIf="showResults && isResultsCol">
+      <div #resultView id="results" class="stretch">
+        <div id="results-tabs">
+          <div id="heading2">Forecast at {{ address }}</div>
+          <div class="horizontal">
+            <img
+              [src]="isFavorite ? '/assets/star-fill.svg' : '/assets/star.svg'"
+              id="favorite-icon"
+              (click)="toggleFavorite()"
+            />
+            <div class="clickable" (click)="onDetail(resultPanel)">
+              <a #details id="details-text">Details</a>
+              <img src="/assets/right.svg" />
+            </div>
+          </div>
+          <div id="tabs">
+            <ul class="nav nav-tabs">
+              <li class="nav-items">
+                <a
+                  class="nav-link tabs"
+                  [ngClass]="{ active: activeIndex === 1 }"
+                  href="#"
+                  (click)="setActiveTab(1)"
+                  >Day view</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link tabs"
+                  href="#"
+                  [ngClass]="{ active: activeIndex === 2 }"
+                  (click)="setActiveTab(2)"
+                  >Daily Temp. Chart</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link tabs"
+                  href="#"
+                  [ngClass]="{ active: activeIndex === 3 }"
+                  (click)="setActiveTab(3)"
+                  >Meteogram</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <table class="view table" *ngIf="activeIndex === 1">
+            <thead>
+              <tr class="tr">
+                <th>#</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Temp. High(°F)</th>
+                <th>Temp. Low(°F)</th>
+                <th>Wind Speed(mph)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let day of nextWeek; let i = index" class="tr">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <a
+                    class="a"
+                    (click)="setDayIndex(i)"
+                    (click)="onDetail(resultPanel)"
+                    id="day-link${i}"
+                    >{{ day.startTime }}</a
+                  >
+                </td>
+                <td class="status">
+                  <img [src]="weatherCodes[day.values.weatherCode][1]" />
+                  {{ weatherCodes[day.values.weatherCode][0] }}
+                </td>
+                <td>{{ day.values.temperatureMax }}</td>
+                <td>{{ day.values.temperatureMin }}</td>
+                <td>{{ day.values.windSpeed }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="activeIndex === 2" class="view">
+            <highcharts-chart
+              [Highcharts]="Highcharts"
+              [options]="chartOptions1"
+              style="width: 100%; height: 425px; display: block"
+            ></highcharts-chart>
+          </div>
+          <div *ngIf="activeIndex === 3" class="view">
+            <highcharts-chart
+              #chart2
+              [Highcharts]="Highcharts"
+              [options]="chartOptions2"
+              style="width: 100%; height: 325px; display: block"
+            ></highcharts-chart>
+          </div>
+        </div>
+      </div>
+
+      <div class="stretch panel" id="map-panel" *ngIf="testMap">
+        <div class="horizontal" id="details">
+          <div id="prev" class="clickable" (click)="onDetail(resultPanel)">
+            <img src="/assets/prev.svg" alt="prev" id="prev-img" />List
+          </div>
+          <div id="heading3">{{ nextWeek[detailActiveIndex].startTime }}</div>
+          <a
+            href="https://twitter.com/intent/tweet?text=The temperature in {{
+              address
+            }} on {{ nextWeek[detailActiveIndex].startTime }} is {{
+              nextWeek[detailActiveIndex].values.temperatureApparent
+            }}°F. The weather conditions are {{
+              weatherCodes[nextWeek[detailActiveIndex].values.weatherCode][0]
+            }}&hashtags=CSCI571WeatherForecast"
+            id="twitter"
+            target="_blank"
+            ><img src="/assets/x.png" id="twitter-img"
+          /></a>
+        </div>
+        <table class="table table-striped">
+          <tbody id="table-body">
+            <tr>
+              <th>Status</th>
+              <td>
+                {{
+                  weatherCodes[
+                    nextWeek[detailActiveIndex].values.weatherCode
+                  ][0]
+                }}
+              </td>
+            </tr>
+            <tr>
+              <th>Max Temperature</th>
+              <td>
+                {{ nextWeek[detailActiveIndex].values.temperatureMax }} °F
+              </td>
+            </tr>
+            <tr>
+              <th>Min Temperature</th>
+              <td>
+                {{ nextWeek[detailActiveIndex].values.temperatureMin }} °F
+              </td>
+            </tr>
+            <tr>
+              <th>Apparent Temperature</th>
+              <td>
+                {{ nextWeek[detailActiveIndex].values.temperatureApparent }} °F
+              </td>
+            </tr>
+            <tr>
+              <th>Sun Rise Time</th>
+              <td>{{ nextWeek[detailActiveIndex].values.sunriseTime }}</td>
+            </tr>
+
+            <tr>
+              <th>Sun Set Time</th>
+              <td>{{ nextWeek[detailActiveIndex].values.sunsetTime }}</td>
+            </tr>
+            <tr>
+              <th>Humidity</th>
+              <td>{{ nextWeek[detailActiveIndex].values.humidity }}%</td>
+            </tr>
+
+            <tr>
+              <th>Wind Speed</th>
+              <td>{{ nextWeek[detailActiveIndex].values.windSpeed }}mph</td>
+            </tr>
+
+            <tr>
+              <th>Visibility</th>
+              <td>{{ nextWeek[detailActiveIndex].values.visibility }}mi</td>
+            </tr>
+
+            <tr>
+              <th>Cloud Cover</th>
+              <td>{{ nextWeek[detailActiveIndex].values.cloudCover }}%</td>
+            </tr>
+          </tbody>
+        </table>
+        <google-map
+          [height]="'450px'"
+          [width]="'100%'"
+          [center]="center"
+          [zoom]="zoom"
+          [options]="options"
+          id="map"
+          #map
+          *ngIf="showMap"
+        >
+          <map-marker
+            *ngFor="let marker of markers"
+            [position]="marker.position"
+          ></map-marker>
+        </google-map>
+      </div>
+    </div>
+
+    <div
+      #favTable
+      id="fav-table"
+      *ngIf="!isResultsCol && favoritesArr.length != 0"
+    >
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let place of favoritesArr; let i = index">
+            <td scope="row">{{ i + 1 }}</td>
+            <td>
+              <a
+                class="a fav-link"
+                (click)="onFavoriteClick(place.city, place.state)"
+                >{{ place.city }}</a
+              >
+            </td>
+            <td>
+              <a
+                class="a fav-link"
+                (click)="onFavoriteClick(place.city, place.state)"
+                >{{ place.state }}</a
+              >
+            </td>
+            <td>
+              <img
+                src="/assets/trash-fill.svg"
+                alt="delete"
+                class="clickable"
+                (click)="deleteFavorite(i)"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<router-outlet />
