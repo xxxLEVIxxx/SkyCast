@@ -2510,6 +2510,7 @@ export class AppComponent implements OnInit {
       element.classList.remove('in');
       element.classList.add('out');
     }
+    this.activeIndex = 1;
   }
 
   setDayIndex(index: number) {

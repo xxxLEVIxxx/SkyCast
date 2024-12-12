@@ -2510,6 +2510,7 @@ export class AppComponent implements OnInit {
       element.classList.remove('in');
       element.classList.add('out');
     }
+    this.activeIndex = 1;
   }
 
   setDayIndex(index: number) {
@@ -2629,7 +2630,7 @@ export class AppComponent implements OnInit {
     this.activeIndex = 1;
     this.detailActiveIndex = 0;
     this.testMap = false;
-    this.isSearching = false;
+    this.isSearching = true;
 
     let lat, lon;
     const google_url = `https://maps.googleapis.com/maps/api/geocode/json?address=${this.city},${this.state}&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY`;
@@ -2674,9 +2675,9 @@ export class AppComponent implements OnInit {
           console.log(lat, lon, this.address);
           this.getNextWeek(lat, lon);
           this.getHourly(lat, lon);
+          this.isResultsCol = true;
           this.showElement();
           this.getFavorites();
-          this.isResultsCol = true;
         }
       });
   }
