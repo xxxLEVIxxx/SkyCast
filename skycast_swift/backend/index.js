@@ -6,17 +6,17 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+require("dotenv").config();
+
 // Middleware to parse JSON
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "dist/assignment3-copy/browser/")));
+app.use(express.static(path.join(__dirname, "dist/frontend/browser/")));
 
 // All routes will be handled by index.html
 app.get("/", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "dist/assignment3-copy/browser", "index.html")
-  );
+  res.sendFile(path.join(__dirname, "dist/frontend/browser", "index.html"));
 });
 
 app.get("/api/auto", async (req, res) => {
@@ -24,7 +24,8 @@ app.get("/api/auto", async (req, res) => {
   let url =
     "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" +
     input +
-    "&types=(cities)&key=AIzaSyDqXJTP92xb2T3PC2fq0bGCIJmF68Y-vyY";
+    "&types=(cities)&key=" +
+    process.env.GOOGLE_API_KEY;
   try {
     const response = await axios.get(url);
     res.send(response.data);
@@ -42,8 +43,9 @@ app.get("/api/current", async (req, res) => {
     lat +
     "%2C" +
     lon +
-    "&fields=uvIndex&units=imperial&timesteps=1d&startTime=now&endTime=nowPlus1d&timezone=US%2FPacific&apikey=5SfaEn9QUMQGU8Szu302sjx67rg2R6Tp";
-  //https://api.tomorrow.io/v4/timelines?location=34.003%2C-118.2863&fields=uvIndex&units=imperial&timesteps=1d&startTime=now&endTime=nowPlus1d&timezone=US%2FPacific&apikey=5SfaEn9QUMQGU8Szu302sjx67rg2R6Tp
+    "&fields=uvIndex&units=imperial&timesteps=1d&startTime=now&endTime=nowPlus1d&timezone=US%2FPacific&apikey=" +
+    process.env.TOMORROWIO_API_KEY;
+
   try {
     const response = await axios.get(url);
     let intervals = response.data.data.timelines[0].intervals;
@@ -69,7 +71,8 @@ app.get("/api/nextweek", async (req, res) => {
     lat +
     "%2C" +
     lon +
-    "&fields=temperatureMax&fields=temperatureMin&fields=weatherCode&fields=windSpeed&fields=sunsetTime&fields=pressureSeaLevel&fields=precipitationProbability&fields=sunriseTime&fields=humidity&fields=visibility&fields=cloudCover&fields=temperatureApparent&units=imperial&timesteps=1d&startTime=now&endTime=nowPlus5d&timezone=US%2FPacific&apikey=5SfaEn9QUMQGU8Szu302sjx67rg2R6Tp";
+    "&fields=temperatureMax&fields=temperatureMin&fields=weatherCode&fields=windSpeed&fields=sunsetTime&fields=pressureSeaLevel&fields=precipitationProbability&fields=sunriseTime&fields=humidity&fields=visibility&fields=cloudCover&fields=temperatureApparent&units=imperial&timesteps=1d&startTime=now&endTime=nowPlus5d&timezone=US%2FPacific&apikey=" +
+    process.env.TOMORROWIO_API_KEY;
 
   try {
     const response = await axios.get(url);
@@ -101,7 +104,8 @@ app.get("/api/hourly", async (req, res) => {
     lat +
     "%2C" +
     lon +
-    "&fields=temperature&fields=humidity&fields=pressureSeaLevel&fields=windSpeed&fields=windDirection&fields=temperature&units=imperial&timesteps=1h&startTime=now&endTime=nowPlus5d&timezone=US%2FPacific&apikey=5SfaEn9QUMQGU8Szu302sjx67rg2R6Tp";
+    "&fields=temperature&fields=humidity&fields=pressureSeaLevel&fields=windSpeed&fields=windDirection&fields=temperature&units=imperial&timesteps=1h&startTime=now&endTime=nowPlus5d&timezone=US%2FPacific&apikey=" +
+    process.env.TOMORROWIO_API_KEY;
 
   try {
     const response = await axios.get(url);
@@ -113,8 +117,7 @@ app.get("/api/hourly", async (req, res) => {
   }
 });
 
-const uri =
-  "mongodb+srv://chenghaox123:Xch892623089@cluster0.ruygh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI;
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })

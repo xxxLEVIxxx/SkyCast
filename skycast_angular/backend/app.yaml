@@ -4,8 +4,8 @@ entrypoint: node index.js
 
 handlers:
   - url: /static
-    static_dir: dist/assignment3-copy/browser # Adjust to match your folder structure
+    static_dir: dist/frontend/browser # Adjust to match your folder structure
 
   - url: /
-    static_files: dist/assignment3-copy/browser/index.html
-    upload: dist/assignment3-copy/browser/index.html
+    static_files: dist/frontend/browser/index.html
+    upload: dist/frontend/browser/index.html
