@@ -16,14 +16,13 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { environment } from '../environments/environment';
+import { environment } from '../../environment';
 
 HighchartsMore(Highcharts);
 Windbarb(Highcharts);
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [
     RouterOutlet,
     FormsModule,
